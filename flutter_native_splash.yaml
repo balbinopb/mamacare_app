@@ -3,9 +3,6 @@ flutter_native_splash:
   ios: false
 
   color: "#ffffff"
-  image: assets/images/logo.png
+  image: assets/images/logo2.png
   android_gravity: center
 
-  android_12:
-    color: "#ffffff"
-    image: assets/images/logo.png
