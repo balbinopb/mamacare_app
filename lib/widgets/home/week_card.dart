@@ -13,8 +13,8 @@ class WeekCard extends StatelessWidget {
       height: 68,
       width: 51,
       decoration: BoxDecoration(
-        color: isSelected ? const Color(0xFFFBCC25) : Colors.transparent,
-        border: Border.all(color: const Color(0xFFFBCC25), width: 2),
+        color: isSelected ? Color(0xFFFBCC25) : Colors.transparent,
+        border: Border.all(color: Color(0xFFFBCC25), width: 2),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Column(

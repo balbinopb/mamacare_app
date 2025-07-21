@@ -7,7 +7,7 @@ class IndicatorCard extends StatelessWidget {
   final String label;
   final String value;
   final String unit;
-  final String status;
+  final String? status;
   final Color backgroundColor;
 
   const IndicatorCard({
@@ -17,15 +17,15 @@ class IndicatorCard extends StatelessWidget {
     required this.label,
     required this.value,
     required this.unit,
-    required this.status,
+    this.status,
     required this.backgroundColor,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 111,
-      padding: const EdgeInsets.all(12),
+      // width: 111,
+      padding: EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.circular(16),
@@ -36,14 +36,14 @@ class IndicatorCard extends StatelessWidget {
           Row(
             children: [
               Icon(icon, color: iconColor, size: 24),
-              const SizedBox(width: 8),
+              SizedBox(width: 8),
               Text(
                 label,
                 style: GoogleFonts.poppins(fontSize: 14, color: Colors.black87),
               ),
             ],
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: 4),
           RichText(
             text: TextSpan(
               text: value,
@@ -64,9 +64,9 @@ class IndicatorCard extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: 4),
           Text(
-            status,
+            status ?? '',
             style: GoogleFonts.poppins(
               fontSize: 12,
               color: Colors.black87,

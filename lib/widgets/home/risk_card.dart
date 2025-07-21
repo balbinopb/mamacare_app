@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mamacare/models/risk_card_model.dart';
-import 'package:mamacare/widgets/heartbeat_chart.dart';
+import 'package:mamacare/widgets/home/heartbeat_chart.dart';
 
 class RiskCard extends StatelessWidget {
   final RiskCardModel data;
@@ -12,9 +12,9 @@ class RiskCard extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: 138,
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
           colors: [Color(0xFFFBCC25), Color(0xFFFFB00B)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,

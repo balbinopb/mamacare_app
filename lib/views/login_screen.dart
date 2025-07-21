@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mamacare/views/home_screen.dart';
-import 'package:mamacare/widgets/custom_textfield.dart';
-import 'package:mamacare/widgets/login_header.dart';
+import 'package:mamacare/views/user/home_screen.dart';
+import 'package:mamacare/widgets/login/custom_textfield.dart';
+import 'package:mamacare/widgets/login/login_header.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -41,7 +41,10 @@ class LoginScreen extends StatelessWidget {
                   child: FilledButton(
                     onPressed: () {
                       //login logic
-                      Navigator.push(context, MaterialPageRoute(builder: (_)=>HomeScreen()));
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => HomeScreen()),
+                      );
                     },
                     style: FilledButton.styleFrom(
                       backgroundColor: Color(0xFFFBCC25),
