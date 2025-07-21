@@ -1,6 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import '../models/line_chart_model.dart';
+import '../../models/line_chart_model.dart';
 
 class MapRotChart extends StatelessWidget {
   final LineChartModel data;
@@ -10,7 +10,7 @@ class MapRotChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
@@ -24,22 +24,19 @@ class MapRotChart extends StatelessWidget {
             children: [
               Text(
                 data.title,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                ),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
               ),
               Row(
                 children: data.entries.map((entry) {
                   return Padding(
-                    padding: const EdgeInsets.only(left: 12),
+                    padding: EdgeInsets.only(left: 12),
                     child: Legend(label: entry.label, color: entry.color),
                   );
                 }).toList(),
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
           // Line Chart
           SizedBox(
             height: 230,
@@ -58,7 +55,7 @@ class MapRotChart extends StatelessWidget {
                       getTitlesWidget: (value, meta) {
                         return Text(
                           value.toInt().toString(),
-                          style: const TextStyle(fontSize: 12),
+                          style: TextStyle(fontSize: 12),
                           textAlign: TextAlign.right,
                         );
                       },
@@ -109,11 +106,8 @@ class Legend extends StatelessWidget {
             borderRadius: BorderRadius.circular(4),
           ),
         ),
-        const SizedBox(width: 4),
-        Text(
-          label,
-          style: const TextStyle(fontSize: 12, color: Colors.black87),
-        ),
+        SizedBox(width: 4),
+        Text(label, style: TextStyle(fontSize: 12, color: Colors.black87)),
       ],
     );
   }
