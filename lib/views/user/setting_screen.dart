@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mamacare/views/user/profile_screen.dart';
+import 'package:mamacare/controllers/setting_controller.dart';
+import 'package:mamacare/routes/app_routes.dart';
 import 'package:mamacare/widgets/setting/info_card.dart';
 import 'package:mamacare/widgets/setting/menu_tile.dart';
 
-class SettingScreen extends StatelessWidget {
+class SettingScreen extends GetView<SettingController> {
   const SettingScreen({super.key});
 
   @override
@@ -13,24 +15,24 @@ class SettingScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           child: Column(
             children: [
               // Back button and title
               Row(
                 children: [
-                  Icon(Icons.arrow_back, size: 24),
-                  SizedBox(width: 10),
-                  Text(
+                  const Icon(Icons.arrow_back, size: 24),
+                  const SizedBox(width: 10),
+                  const Text(
                     'Setting',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                   ),
                 ],
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
 
               // Profile avatar
-              CircleAvatar(
+              const CircleAvatar(
                 radius: 65,
                 backgroundColor: Color(0xFFFFB00B),
                 child: CircleAvatar(
@@ -38,66 +40,78 @@ class SettingScreen extends StatelessWidget {
                   backgroundImage: AssetImage('assets/user.png'),
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
 
-              // Name and age
-              Text(
-                ' Stefanyy Martin',
-                style: GoogleFonts.poppins(
-                  fontSize: 32,
-                  fontWeight: FontWeight.w600,
+              // Name and age (reactive)
+              Obx(
+                () => Text(
+                  controller.name.value,
+                  style: GoogleFonts.poppins(
+                    fontSize: 32,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
-              Text(
-                '25 years old',
-                style: GoogleFonts.poppins(fontSize: 14, color: Colors.black),
+              Obx(
+                () => Text(
+                  '${controller.age.value} years old',
+                  style: GoogleFonts.poppins(fontSize: 14, color: Colors.black),
+                ),
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
 
               // Info cards (trimester, weight, height)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  InfoCard(
-                    icon: Icons.local_fire_department,
-                    label: 'Trimester',
-                    value: '10',
-                    unit: 'week',
-                    color: Color(0xFFFAEBEB),
-                    valueColor: Colors.red,
-                  ),
-                  InfoCard(
-                    icon: Icons.monitor_weight,
-                    label: 'Weight',
-                    value: '55',
-                    unit: 'kg',
-                    color: Color(0xFFFFFAEA),
-                    valueColor: Color(0xFFFBCC25),
-                  ),
-                  InfoCard(
-                    icon: Icons.height,
-                    label: 'Height',
-                    value: '160',
-                    unit: 'cm',
-                    color: Color(0xFFEEF5F0),
-                    valueColor: Colors.green,
-                  ),
-                ],
+              Obx(
+                () => Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    InfoCard(
+                      icon: Icons.local_fire_department,
+                      label: 'Trimester',
+                      value: controller.trimester.value.toString(),
+                      unit: 'week',
+                      color: const Color(0xFFFAEBEB),
+                      valueColor: Colors.red,
+                    ),
+                    InfoCard(
+                      icon: Icons.monitor_weight,
+                      label: 'Weight',
+                      value: controller.weight.value.toString(),
+                      unit: 'kg',
+                      color: const Color(0xFFFFFAEA),
+                      valueColor: const Color(0xFFFBCC25),
+                    ),
+                    InfoCard(
+                      icon: Icons.height,
+                      label: 'Height',
+                      value: controller.height.value.toString(),
+                      unit: 'cm',
+                      color: const Color(0xFFEEF5F0),
+                      valueColor: Colors.green,
+                    ),
+                  ],
+                ),
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
 
+              // Menu options
               MenuTile(
                 icon: Icons.person,
                 title: 'Profile',
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ProfileScreen()),
-                  );
+                  Get.toNamed(AppRoutes.profile);
                 },
               ),
-              MenuTile(icon: Icons.info, title: 'About'),
-              MenuTile(icon: Icons.logout, title: 'Logout'),
+              MenuTile(
+                icon: Icons.info,
+                title: 'About',
+                onTap: () => Get.toNamed(AppRoutes.about),
+              ),
+              MenuTile(
+                icon: Icons.logout,
+                title: 'Logout',
+                onTap: () => controller.logout(),
+              ),
             ],
           ),
         ),
