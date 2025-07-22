@@ -21,16 +21,22 @@ class LoginScreen extends StatelessWidget {
           child: Column(
             children: [
               LoginHeader(),
-              CustomTextfield(
-                title: "Email",
-                placeholder: "Email",
-                controller: controller.emailController,
+              Obx(
+                () => CustomTextfield(
+                  title: "Email",
+                  placeholder: "Email",
+                  controller: controller.emailController,
+                  errorText: controller.emailError.value,
+                ),
               ),
-              CustomTextfield(
-                title: "Password",
-                placeholder: "Password",
-                isbscure: true,
-                controller: controller.passwordController,
+              Obx(
+                () => CustomTextfield(
+                  title: "Password",
+                  placeholder: "Password",
+                  isbscure: true,
+                  controller: controller.passwordController,
+                  errorText: controller.passwordError.value,
+                ),
               ),
               SizedBox(height: 30),
               Text(
