@@ -1,55 +1,15 @@
-import 'package:fl_chart/fl_chart.dart';
+// lib/screens/home_screen.dart
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mamacare/models/line_chart_model.dart';
-import 'package:mamacare/models/risk_card_model.dart';
+import 'package:mamacare/controllers/home_controller.dart';
 import 'package:mamacare/widgets/home/indicator_card.dart';
 import 'package:mamacare/widgets/home/map_rot_chart.dart';
 import 'package:mamacare/widgets/home/risk_card.dart';
 import 'package:mamacare/widgets/home/week_card.dart';
 
-class HomeScreen extends StatelessWidget {
-  final String name = "Steffanyy Martin";
-  final String date = "01 Juni 2025";
-  final String hour = "09.30 AM";
-
-  final risk = RiskCardModel(
-    title: "Preeclampsia",
-    level: "High Risk",
-    heartbeatPattern: [2, 2, 3, 1, 4, 0, 2, 2],
-  );
-
-  final chartData = LineChartModel(
-    title: 'MAP & ROT Graphic',
-    entries: [
-      LineChartEntry(
-        label: 'MAP',
-        color: Colors.red,
-        spots: [
-          FlSpot(0, 15),
-          FlSpot(1, 25),
-          FlSpot(2, 35),
-          FlSpot(3, 65),
-          FlSpot(4, 85),
-          FlSpot(5, 100),
-        ],
-      ),
-      LineChartEntry(
-        label: 'ROT',
-        color: Colors.amber,
-        spots: [
-          FlSpot(0, 5),
-          FlSpot(1, 15),
-          FlSpot(2, 45),
-          FlSpot(3, 95),
-          FlSpot(4, 65),
-          FlSpot(5, 100),
-        ],
-      ),
-    ],
-  );
-
-  HomeScreen({super.key});
+class HomeScreen extends GetView<HomeController> {
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -58,116 +18,114 @@ class HomeScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 18.0, vertical: 24),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // header
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    // Avatar
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: Image.asset(
-                        "assets/user.png",
-                        height: 54,
-                        width: 54,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-
-                    SizedBox(width: 12),
-
-                    // Greeting and Time
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Hai, $name",
-                          style: GoogleFonts.poppins(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-
-                        SizedBox(height: 4),
-
-                        Text(
-                          "$hour  $date",
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey[600],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-
-                SizedBox(height: 24),
-
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
+            child: Obx(
+              () => Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Header
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      for (int week = 9; week < 17; week++)
-                        Padding(
-                          padding: EdgeInsets.only(right: 12),
-                          child: WeekCard(week: week),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: Image.asset(
+                          "assets/user.png",
+                          height: 54,
+                          width: 54,
+                          fit: BoxFit.cover,
                         ),
+                      ),
+                      SizedBox(width: 12),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Hai, ${controller.name.value}",
+                            style: GoogleFonts.poppins(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          SizedBox(height: 4),
+                          Text(
+                            "${controller.hour.value}  ${controller.date.value}",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey[600],
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
-                ),
 
-                SizedBox(height: 24),
+                  SizedBox(height: 24),
 
-                RiskCard(data: risk),
-
-                SizedBox(height: 24),
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IndicatorCard(
-                      icon: Icons.bloodtype,
-                      iconColor: Color(0xFFC73133),
-                      label: "MAP",
-                      value: "93",
-                      unit: "mmHg",
-                      status: "Hipertensi",
-                      backgroundColor: Color(0xFFFAEBEB),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        for (int week = 9; week < 17; week++)
+                          Padding(
+                            padding: EdgeInsets.only(right: 12),
+                            child: WeekCard(week: week),
+                          ),
+                      ],
                     ),
-                    IndicatorCard(
-                      icon: Icons.rotate_right,
-                      iconColor: Color(0xFFFBCC25),
-                      label: "ROT",
-                      value: "25",
-                      unit: "deg",
-                      status: "High",
-                      backgroundColor: Color(0xFFFFFAEA),
-                    ),
-                    IndicatorCard(
-                      icon: Icons.accessibility_new,
-                      iconColor: Color(0xFF539660),
-                      label: "BMI",
-                      value: "23,4",
-                      unit: "kg",
-                      status: "Normal",
-                      backgroundColor: Color(0xFFEEF5F0),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 24),
-                Text(
-                  "Latest Report",
-                  style: GoogleFonts.poppins(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w500,
                   ),
-                ),
 
-                MapRotChart(data: chartData),
-              ],
+                  SizedBox(height: 24),
+
+                  RiskCard(data: controller.risk.value),
+
+                  SizedBox(height: 24),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IndicatorCard(
+                        icon: Icons.bloodtype,
+                        iconColor: Color(0xFFC73133),
+                        label: "MAP",
+                        value: "93",
+                        unit: "mmHg",
+                        status: "Hipertensi",
+                        backgroundColor: Color(0xFFFAEBEB),
+                      ),
+                      IndicatorCard(
+                        icon: Icons.rotate_right,
+                        iconColor: Color(0xFFFBCC25),
+                        label: "ROT",
+                        value: "25",
+                        unit: "deg",
+                        status: "High",
+                        backgroundColor: Color(0xFFFFFAEA),
+                      ),
+                      IndicatorCard(
+                        icon: Icons.accessibility_new,
+                        iconColor: Color(0xFF539660),
+                        label: "BMI",
+                        value: "23,4",
+                        unit: "kg",
+                        status: "Normal",
+                        backgroundColor: Color(0xFFEEF5F0),
+                      ),
+                    ],
+                  ),
+
+                  SizedBox(height: 24),
+
+                  Text(
+                    "Latest Report",
+                    style: GoogleFonts.poppins(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+
+                  MapRotChart(data: controller.chartData.value),
+                ],
+              ),
             ),
           ),
         ),

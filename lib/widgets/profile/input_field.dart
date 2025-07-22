@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class InputField extends StatelessWidget {
   final String label;
@@ -24,16 +25,23 @@ class InputField extends StatelessWidget {
         GestureDetector(
           onTap: onTap,
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+            padding: EdgeInsets.symmetric(horizontal: 13, vertical: 13),
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey.shade300),
-              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: Colors.amber),
+              borderRadius: BorderRadius.circular(16),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(hintText, style: TextStyle(fontSize: 16)),
-                if (hasEditIcon) Icon(Icons.edit, size: 18, color: Colors.grey),
+                Text(
+                  hintText,
+                  style: GoogleFonts.poppins(
+                    fontSize: 14,
+                    color: Color(0xFF82909C),
+                  ),
+                ),
+                if (hasEditIcon)
+                  Icon(Icons.edit, size: 18, color: Colors.black),
               ],
             ),
           ),

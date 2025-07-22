@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:mamacare/bindings/globall_bindins.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:mamacare/widgets/bottom_navbar.dart';
+import 'package:mamacare/routes/app_pages.dart';
+import 'package:mamacare/routes/app_routes.dart';
 
 void main()async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -25,8 +25,9 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'mamacare',
       debugShowCheckedModeBanner: false,
-      initialBinding: GloballBindins(),
-      home: BottomNavbar(),
+      initialRoute: AppRoutes.login,
+      getPages: AppPages.routes,
+      // initialBinding: GloballBindins(),
     );
   }
 }
