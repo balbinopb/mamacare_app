@@ -69,6 +69,25 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Don't have an account?",
+                    style: GoogleFonts.poppins(fontSize: 14),
+                  ),
+                  TextButton(
+                    onPressed: () {},
+                    child: Text(
+                      ' Register',
+                      style: GoogleFonts.poppins(
+                        color: Color(0xFFFBCC25),
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
