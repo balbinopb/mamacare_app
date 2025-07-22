@@ -44,7 +44,7 @@ class AboutScreen extends GetView<AboutController> {
             const SizedBox(height: 16),
             Text(
               controller.description,
-              textAlign: TextAlign.center,
+              textAlign: TextAlign.start,
               style: GoogleFonts.poppins(fontSize: 13, color: Colors.black),
             ),
             const SizedBox(height: 20),

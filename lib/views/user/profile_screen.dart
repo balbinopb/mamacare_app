@@ -42,7 +42,7 @@ class ProfileScreen extends GetView<ProfileController> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(20),
           child: Column(
             children: [
               Row(
@@ -61,12 +61,12 @@ class ProfileScreen extends GetView<ProfileController> {
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
 
               // Avatar
               Stack(
                 alignment: Alignment.bottomRight,
-                children: const [
+                children: [
                   CircleAvatar(
                     radius: 60,
                     backgroundColor: Colors.amber,
@@ -86,7 +86,7 @@ class ProfileScreen extends GetView<ProfileController> {
                   ),
                 ],
               ),
-              const SizedBox(height: 30),
+              SizedBox(height: 30),
 
               // Email
               Obx(

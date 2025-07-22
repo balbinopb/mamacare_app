@@ -15,24 +15,24 @@ class SettingScreen extends GetView<SettingController> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(20),
           child: Column(
             children: [
               // Back button and title
               Row(
                 children: [
-                  const Icon(Icons.arrow_back, size: 24),
-                  const SizedBox(width: 10),
-                  const Text(
+                  Icon(Icons.arrow_back, size: 24),
+                  SizedBox(width: 10),
+                  Text(
                     'Setting',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
 
               // Profile avatar
-              const CircleAvatar(
+              CircleAvatar(
                 radius: 65,
                 backgroundColor: Color(0xFFFFB00B),
                 child: CircleAvatar(
@@ -40,7 +40,7 @@ class SettingScreen extends GetView<SettingController> {
                   backgroundImage: AssetImage('assets/user.png'),
                 ),
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: 10),
 
               // Name and age (reactive)
               Obx(
@@ -58,7 +58,7 @@ class SettingScreen extends GetView<SettingController> {
                   style: GoogleFonts.poppins(fontSize: 14, color: Colors.black),
                 ),
               ),
-              const SizedBox(height: 30),
+              SizedBox(height: 30),
 
               // Info cards (trimester, weight, height)
               Obx(
@@ -70,7 +70,7 @@ class SettingScreen extends GetView<SettingController> {
                       label: 'Trimester',
                       value: controller.trimester.value.toString(),
                       unit: 'week',
-                      color: const Color(0xFFFAEBEB),
+                      color: Color(0xFFFAEBEB),
                       valueColor: Colors.red,
                     ),
                     InfoCard(
@@ -78,21 +78,21 @@ class SettingScreen extends GetView<SettingController> {
                       label: 'Weight',
                       value: controller.weight.value.toString(),
                       unit: 'kg',
-                      color: const Color(0xFFFFFAEA),
-                      valueColor: const Color(0xFFFBCC25),
+                      color: Color(0xFFFFFAEA),
+                      valueColor: Color(0xFFFBCC25),
                     ),
                     InfoCard(
                       icon: Icons.height,
                       label: 'Height',
                       value: controller.height.value.toString(),
                       unit: 'cm',
-                      color: const Color(0xFFEEF5F0),
+                      color: Color(0xFFEEF5F0),
                       valueColor: Colors.green,
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 30),
+              SizedBox(height: 30),
 
               // Menu options
               MenuTile(
@@ -110,7 +110,65 @@ class SettingScreen extends GetView<SettingController> {
               MenuTile(
                 icon: Icons.logout,
                 title: 'Logout',
-                onTap: () => controller.logout(),
+                onTap: () {
+                  Get.dialog(
+                    AlertDialog(
+                      backgroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      contentPadding: EdgeInsets.all(24),
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.logout,
+                            size: 48,
+                            color: Color(0xFFFBCC25),
+                          ),
+                          SizedBox(height: 16),
+                          Text(
+                            "Logout Confirmation",
+                            style: GoogleFonts.poppins(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: 12),
+                          Text(
+                            "You will be logged out of this account.Continue logging out?",
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.poppins(fontSize: 14),
+                          ),
+                          SizedBox(height: 16),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              TextButton(
+                                onPressed: () => Get.back(),
+                                child: Text(
+                                  "Cancel",
+                                  style: TextStyle(color: Color(0xFFFBCC25)),
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Get.back();
+                                  controller.logout();
+                                },
+                                child: Text(
+                                  "OK",
+                                  style: TextStyle(color: Color(0xFFFBCC25)),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
               ),
             ],
           ),
