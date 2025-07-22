@@ -20,7 +20,7 @@ class LoginScreen extends StatelessWidget {
           ),
           child: Column(
             children: [
-              const LoginHeader(),
+              LoginHeader(),
               CustomTextfield(
                 title: "Email",
                 placeholder: "Email",
@@ -32,29 +32,26 @@ class LoginScreen extends StatelessWidget {
                 isbscure: true,
                 controller: controller.passwordController,
               ),
-              const SizedBox(height: 30),
+              SizedBox(height: 30),
               Text(
                 "Forgot Password?",
                 style: GoogleFonts.poppins(
-                  color: const Color(0xFFFBCC25),
+                  color: Color(0xFFFBCC25),
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              const SizedBox(height: 30),
+              SizedBox(height: 30),
               Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 28,
-                  vertical: 6,
-                ),
+                padding: EdgeInsets.symmetric(horizontal: 28, vertical: 6),
                 child: SizedBox(
                   width: double.infinity,
                   child: FilledButton(
                     onPressed: controller.login,
                     style: FilledButton.styleFrom(
-                      backgroundColor: const Color(0xFFFBCC25),
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      textStyle: const TextStyle(
+                      backgroundColor: Color(0xFFFBCC25),
+                      padding: EdgeInsets.symmetric(vertical: 14),
+                      textStyle: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
@@ -62,10 +59,7 @@ class LoginScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(24),
                       ),
                     ),
-                    child: const Text(
-                      "Login",
-                      style: TextStyle(color: Colors.black),
-                    ),
+                    child: Text("Login", style: TextStyle(color: Colors.black)),
                   ),
                 ),
               ),
