@@ -8,6 +8,7 @@ class AppRoutes {
   static const setting='/setting';
   static const profile='/profile';
   static const editname='/editname';
+  static const about='/about';
 
 
 }
