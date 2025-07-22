@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:get/get.dart';
+import 'package:mamacare/controllers/profile_controller.dart';
+import 'package:mamacare/views/user/edit_name_screen.dart';
 import 'package:mamacare/widgets/profile/input_field.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+class ProfileScreen extends StatelessWidget {
+  ProfileScreen({super.key});
 
-  @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
-}
+  final ProfileController controller = Get.put(ProfileController());
 
-class _ProfileScreenState extends State<ProfileScreen> {
-  String dateOfBirth = "11/20/2000";
-  String lastPeriod = "23/03/2025";
-
-  Future<void> _pickDate(BuildContext context, String label) async {
+  Future<void> _pickDate(BuildContext context, String field) async {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -22,7 +18,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
-            colorScheme: ColorScheme.light(
+            colorScheme: const ColorScheme.light(
               primary: Colors.amber,
               onPrimary: Colors.white,
               onSurface: Colors.black,
@@ -37,14 +33,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
 
     if (picked != null) {
-      setState(() {
-        final formatted = DateFormat('dd/MM/yyyy').format(picked);
-        if (label == "Date of Birth") {
-          dateOfBirth = formatted;
-        } else if (label == "First Day of Last Period") {
-          lastPeriod = formatted;
-        }
-      });
+      controller.updateDate(field, picked);
     }
   }
 
@@ -54,12 +43,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           child: Column(
             children: [
-              // Back + title
               Row(
-                children: [
+                children: const [
                   Icon(Icons.arrow_back, size: 24),
                   SizedBox(width: 10),
                   Text(
@@ -68,12 +56,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ],
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
 
-              // Profile picture with edit icon
+              // Avatar
               Stack(
                 alignment: Alignment.bottomRight,
-                children: [
+                children: const [
                   CircleAvatar(
                     radius: 60,
                     backgroundColor: Colors.amber,
@@ -93,32 +81,72 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ],
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
 
-              // Info fields
-              InputField(label: "Email", hintText: "stefanyy@gmail.com"),
-              InputField(label: "Phone Number", hintText: "081234567890"),
-              InputField(
-                label: "Name",
-                hintText: "Stefanyy Martin",
-                hasEditIcon: true,
+              // Email
+              Obx(
+                () => InputField(
+                  label: "Email",
+                  hintText: controller.email.value,
+                ),
               ),
-              InputField(
-                label: "Date of Birth",
-                hintText: dateOfBirth,
-                hasEditIcon: true,
-                onTap: () => _pickDate(context, "Date of Birth"),
+
+              // Wife Name
+              Obx(
+                () => InputField(
+                  label: "Name",
+                  hintText: controller.wifeName.value,
+                  hasEditIcon: true,
+                  onTap: () {
+                    Get.to(
+                      () => EditNameScreen(
+                        title: "Name",
+                        initialValue: controller.wifeName.value,
+                        onSave: (value) =>
+                            controller.updateName(who: "wife", name: value),
+                      ),
+                    );
+                  },
+                ),
               ),
-              InputField(
-                label: "Husband's name",
-                hintText: "John Martin",
-                hasEditIcon: true,
+
+              // DOB
+              Obx(
+                () => InputField(
+                  label: "Date of Birth",
+                  hintText: controller.dateOfBirth.value,
+                  hasEditIcon: true,
+                  onTap: () => _pickDate(context, "dob"),
+                ),
               ),
-              InputField(
-                label: "First Day of Last Period",
-                hintText: lastPeriod,
-                hasEditIcon: true,
-                onTap: () => _pickDate(context, "First Day of Last Period"),
+
+              // Husband Name
+              Obx(
+                () => InputField(
+                  label: "Husband's name",
+                  hintText: controller.husbandName.value,
+                  hasEditIcon: true,
+                  onTap: () {
+                    Get.to(
+                      () => EditNameScreen(
+                        title: "Husband's name",
+                        initialValue: controller.husbandName.value,
+                        onSave: (value) =>
+                            controller.updateName(who: "husband", name: value),
+                      ),
+                    );
+                  },
+                ),
+              ),
+
+              // Last Period
+              Obx(
+                () => InputField(
+                  label: "First Day of Last Period",
+                  hintText: controller.lastPeriod.value,
+                  hasEditIcon: true,
+                  onTap: () => _pickDate(context, "lastPeriod"),
+                ),
               ),
             ],
           ),
