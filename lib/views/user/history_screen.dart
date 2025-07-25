@@ -11,7 +11,7 @@ class HistoryScreen extends GetView<HistoryController> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Preeclampsia History'),
-        leading: BackButton(),
+        // leading: BackButton(),
       ),
       body: Column(
         children: [
