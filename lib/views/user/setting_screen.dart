@@ -21,8 +21,8 @@ class SettingScreen extends GetView<SettingController> {
               // Back button and title
               Row(
                 children: [
-                  Icon(Icons.arrow_back, size: 24),
-                  SizedBox(width: 10),
+                  // Icon(Icons.arrow_back, size: 24),
+                  // SizedBox(width: 10),
                   Text(
                     'Setting',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
