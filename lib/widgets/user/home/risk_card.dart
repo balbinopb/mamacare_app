@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mamacare/models/risk_card_model.dart';
-import 'package:mamacare/widgets/home/heartbeat_chart.dart';
+import 'package:mamacare/widgets/user/home/heartbeat_chart.dart';
 
 class RiskCard extends StatelessWidget {
   final RiskCardModel data;

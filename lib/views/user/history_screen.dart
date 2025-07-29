@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mamacare/controllers/history_controller.dart';
+import 'package:mamacare/controllers/user/history_controller.dart';
 
 class HistoryScreen extends GetView<HistoryController> {
   const HistoryScreen({super.key});

@@ -2,11 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mamacare/controllers/home_controller.dart';
-import 'package:mamacare/widgets/home/indicator_card.dart';
-import 'package:mamacare/widgets/home/map_rot_chart.dart';
-import 'package:mamacare/widgets/home/risk_card.dart';
-import 'package:mamacare/widgets/home/week_card.dart';
+import 'package:mamacare/controllers/user/home_controller.dart';
+import 'package:mamacare/widgets/user/home/indicator_card.dart';
+import 'package:mamacare/widgets/user/home/map_rot_chart.dart';
+import 'package:mamacare/widgets/user/home/risk_card.dart';
+import 'package:mamacare/widgets/user/home/week_card.dart';
 
 class HomeScreen extends GetView<HomeController> {
   const HomeScreen({super.key});

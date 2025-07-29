@@ -1,6 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import '../../models/line_chart_model.dart';
+import '../../../models/line_chart_model.dart';
 
 class MapRotChart extends StatelessWidget {
   final LineChartModel data;
