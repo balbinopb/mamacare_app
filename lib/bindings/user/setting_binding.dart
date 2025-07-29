@@ -1,6 +1,6 @@
 
 import 'package:get/get.dart';
-import 'package:mamacare/controllers/setting_controller.dart';
+import 'package:mamacare/controllers/user/setting_controller.dart';
 
 class SettingBinding extends Bindings {
   @override

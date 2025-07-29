@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mamacare/controllers/login_controller.dart';
-import 'package:mamacare/widgets/login/custom_textfield.dart';
-import 'package:mamacare/widgets/login/login_header.dart';
+import 'package:mamacare/widgets/user/login/custom_textfield.dart';
+import 'package:mamacare/widgets/user/login/login_header.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mamacare/controllers/setting_controller.dart';
+import 'package:mamacare/controllers/user/setting_controller.dart';
 import 'package:mamacare/routes/app_routes.dart';
-import 'package:mamacare/widgets/setting/info_card.dart';
-import 'package:mamacare/widgets/setting/menu_tile.dart';
+import 'package:mamacare/widgets/user/setting/info_card.dart';
+import 'package:mamacare/widgets/user/setting/menu_tile.dart';
 
 class SettingScreen extends GetView<SettingController> {
   const SettingScreen({super.key});
@@ -99,13 +99,13 @@ class SettingScreen extends GetView<SettingController> {
                 icon: Icons.person,
                 title: 'Profile',
                 onTap: () {
-                  Get.toNamed(AppRoutes.profile);
+                  Get.toNamed(AppRoutes.userProfile);
                 },
               ),
               MenuTile(
                 icon: Icons.info,
                 title: 'About',
-                onTap: () => Get.toNamed(AppRoutes.about),
+                onTap: () => Get.toNamed(AppRoutes.userAbout),
               ),
               MenuTile(
                 icon: Icons.logout,
