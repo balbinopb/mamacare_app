@@ -16,7 +16,7 @@ class AppRoutes {
   // Admin routes
   static const adminNavbar = '/admin/navbar';
   static const adminHome = '/admin/home';
-  static const adminHistory = '/admin/history';
+  static const adminAdduser= '/admin/adduser';
   static const adminSettings = '/admin/settings';
   static const adminProfile = '/admin/profile';
   static const adminEditName = '/admin/edit-name';
