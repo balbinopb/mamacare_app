@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mamacare/controllers/user/setting_controller.dart';
 import 'package:mamacare/routes/app_routes.dart';
 import 'package:mamacare/widgets/user/setting/info_card.dart';
-import 'package:mamacare/widgets/user/setting/menu_tile.dart';
+import 'package:mamacare/widgets/user/menu_tile.dart';
 
 class SettingScreen extends GetView<SettingController> {
   const SettingScreen({super.key});
