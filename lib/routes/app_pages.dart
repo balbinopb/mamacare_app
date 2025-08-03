@@ -13,6 +13,8 @@ import 'package:mamacare/views/admin/admin_setting_screen.dart';
 import 'package:mamacare/views/login_screen.dart';
 import 'package:mamacare/views/user/about_screen.dart';
 import 'package:mamacare/views/user/profile_screen.dart';
+import 'package:mamacare/views/user/reset_password_screen_screen.dart';
+import 'package:mamacare/views/user/set_new_password_screen.dart';
 import 'package:mamacare/views/user/setting_screen.dart';
 import 'package:mamacare/widgets/admin/admin_bottom_navbar.dart';
 import 'package:mamacare/widgets/user/bottom_navbar.dart';
@@ -20,21 +22,40 @@ import 'package:mamacare/widgets/user/bottom_navbar.dart';
 class AppPages {
   static final routes = [
     // ----------USER ROUTES-----------
+
+    // login
     GetPage(
       name: AppRoutes.login,
       page: () => LoginScreen(),
       binding: LoginBinding(),
     ),
+
+    // reset pw
+    GetPage(
+      name: AppRoutes.resetPassword,
+      page: () => ResetPasswordScreen(),
+      binding: LoginBinding(),
+    ),
+    // set new pw
+    GetPage(
+      name: AppRoutes.setNewPassword,
+      page: () => SetNewPasswordScreen(),
+      binding: LoginBinding(),
+    ),
+
+    // user navbar
     GetPage(
       name: AppRoutes.userNavbar,
       page: () => BottomNavbar(),
       binding: BottomNavBinding(),
     ),
+
     GetPage(
       name: AppRoutes.userSettings,
       page: () => SettingScreen(),
       binding: SettingBinding(),
     ),
+
     GetPage(
       name: AppRoutes.userProfile,
       page: () => ProfileScreen(),
