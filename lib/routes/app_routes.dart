@@ -3,6 +3,9 @@
 class AppRoutes {
   
   static const login = '/login';
+  static const resetPassword = '/resetPassword';
+  static const setNewPassword = '/resetNewPassword';
+
 
   // User routes
   static const userNavbar = '/user/navbar';

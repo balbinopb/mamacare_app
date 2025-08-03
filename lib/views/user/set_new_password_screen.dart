@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mamacare/controllers/login_controller.dart';
-import 'package:mamacare/routes/app_routes.dart';
 import 'package:mamacare/widgets/user/login/custom_textfield.dart';
 import 'package:mamacare/widgets/user/login/login_header.dart';
 
-class LoginScreen extends StatelessWidget {
-  LoginScreen({super.key});
+class SetNewPasswordScreen extends StatelessWidget {
+  SetNewPasswordScreen({super.key});
 
   final LoginController controller = Get.put(LoginController());
 
@@ -21,37 +20,25 @@ class LoginScreen extends StatelessWidget {
           ),
           child: Column(
             children: [
-              LoginHeader(first: "Welcome to \nMamacare", second: "Please login to continue",),
-              Obx(
-                () => CustomTextfield(
-                  title: "Nomor HP",
-                  placeholder: "Number phone",
-                  controller: controller.emailController,
-                  errorText: controller.emailError.value,
-                ),
+              LoginHeader(
+                first: "Set a  New Password\nfor Your Account",
+                second: "Please login to continue",
               ),
               Obx(
                 () => CustomTextfield(
                   title: "Password",
-                  placeholder: "Password",
+                  placeholder: "Enter your password",
                   isPassword: true,
-                  controller: controller.passwordController,
+                  // controller: controller.passwordController,
                   errorText: controller.passwordError.value,
                 ),
               ),
-              SizedBox(height: 30),
-              TextButton(
-                onPressed: () {
-                  Get.toNamed(AppRoutes.resetPassword);
-                },
-                child: Text(
-                  "Forgot Password?",
-                  style: GoogleFonts.poppins(
-                    color: Color(0xFFFBCC25),
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
+              CustomTextfield(
+                title: "Password Confirmation",
+                placeholder: "Enter your password confirmation",
+                isPassword: true,
+                // controller: controller.passwordController,
+                errorText: controller.passwordError.value,
               ),
               SizedBox(height: 30),
               Padding(
@@ -71,28 +58,12 @@ class LoginScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(24),
                       ),
                     ),
-                    child: Text("Login", style: TextStyle(color: Colors.black)),
-                  ),
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Don't have an account?",
-                    style: GoogleFonts.poppins(fontSize: 14),
-                  ),
-                  TextButton(
-                    onPressed: () {},
                     child: Text(
-                      ' Register',
-                      style: GoogleFonts.poppins(
-                        color: Color(0xFFFBCC25),
-                        fontSize: 14,
-                      ),
+                      "Save",
+                      style: GoogleFonts.poppins(color: Colors.black),
                     ),
                   ),
-                ],
+                ),
               ),
             ],
           ),

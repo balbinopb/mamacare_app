@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class CustomTextfield extends StatelessWidget {
+class CustomTextfield extends StatefulWidget {
   final String title;
   final String placeholder;
-  final bool isbscure;
+  final bool isPassword;
   final TextEditingController? controller;
   final String? errorText;
 
@@ -11,54 +11,81 @@ class CustomTextfield extends StatelessWidget {
     super.key,
     required this.title,
     required this.placeholder,
-    this.isbscure = false,
+    this.isPassword = false,
     this.controller,
-    required this.errorText,
+    this.errorText,
   });
+
+  @override
+  State<CustomTextfield> createState() => _CustomTextfieldState();
+}
+
+class _CustomTextfieldState extends State<CustomTextfield> {
+  late bool _obscureText;
+
+  @override
+  void initState() {
+    super.initState();
+    _obscureText = widget.isPassword;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 28, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 6),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            title,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            widget.title,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           TextField(
-            controller: controller,
-            obscureText: isbscure,
+            controller: widget.controller,
+            obscureText: _obscureText,
             showCursor: true,
             decoration: InputDecoration(
-              errorText: errorText,
-              errorStyle: TextStyle(color: Color(0xFFFBCC25)),
-              hintText: placeholder,
-              contentPadding: EdgeInsets.symmetric(
+              suffixIcon: widget.isPassword
+                  ? IconButton(
+                      icon: Icon(
+                        _obscureText ? Icons.visibility_off : Icons.visibility,
+                        color: Colors.grey,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _obscureText = !_obscureText;
+                        });
+                      },
+                    )
+                  : null,
+              errorText: widget.errorText,
+              errorStyle: const TextStyle(color: Color(0xFFFBCC25)),
+              hintText: widget.placeholder,
+              contentPadding: const EdgeInsets.symmetric(
                 horizontal: 12,
                 vertical: 14,
               ),
-
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: Color(0xFFAAAAAD)),
+                borderSide: const BorderSide(color: Color(0xFFAAAAAD)),
               ),
-
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: Color(0xFFFFB00B), width: 2),
+                borderSide: const BorderSide(
+                  color: Color(0xFFFFB00B),
+                  width: 2,
+                ),
               ),
-
               errorBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Color(0xFFFBCC25)),
+                borderSide: const BorderSide(color: Color(0xFFFBCC25)),
                 borderRadius: BorderRadius.circular(8),
               ),
-
-              // Focused while error exists
               focusedErrorBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Color(0xFFFBCC25), width: 2),
+                borderSide: const BorderSide(
+                  color: Color(0xFFFBCC25),
+                  width: 2,
+                ),
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
