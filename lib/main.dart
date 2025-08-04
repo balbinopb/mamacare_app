@@ -24,6 +24,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'mamacare',
+      theme: ThemeData(
+        scaffoldBackgroundColor:Colors.white
+      ),
       debugShowCheckedModeBanner: false,
       initialRoute: AppRoutes.login,
       getPages: AppPages.routes,

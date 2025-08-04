@@ -10,6 +10,7 @@ import 'package:mamacare/views/admin/add_user_screen.dart';
 import 'package:mamacare/views/admin/admin_about_screen.dart';
 import 'package:mamacare/views/admin/admin_home_screen.dart';
 import 'package:mamacare/views/admin/admin_setting_screen.dart';
+import 'package:mamacare/views/details_screen.dart';
 import 'package:mamacare/views/login_screen.dart';
 import 'package:mamacare/views/user/about_screen.dart';
 import 'package:mamacare/views/user/profile_screen.dart';
@@ -65,6 +66,11 @@ class AppPages {
       name: AppRoutes.userAbout,
       page: () => AboutScreen(),
       binding: AboutBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.details,
+      page: () => DetailsScreen(),
+      // binding: AboutBinding(),
     ),
 
     // ----------ADMIN ROUTES-----------
