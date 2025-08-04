@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mamacare/controllers/user/home_controller.dart';
+import 'package:mamacare/widgets/pop_up_menu.dart';
 import 'package:mamacare/widgets/user/home/indicator_card.dart';
 import 'package:mamacare/widgets/user/home/map_rot_chart.dart';
 import 'package:mamacare/widgets/user/home/risk_card.dart';
@@ -115,12 +116,18 @@ class HomeScreen extends GetView<HomeController> {
 
                   SizedBox(height: 24),
 
-                  Text(
-                    "Latest Report",
-                    style: GoogleFonts.poppins(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w500,
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Latest Report",
+                        style: GoogleFonts.poppins(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      PopUpMenu()
+                    ],
                   ),
 
                   MapRotChart(data: controller.chartData.value),

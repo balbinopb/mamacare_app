@@ -24,4 +24,9 @@ class AppRoutes {
   static const adminProfile = '/admin/profile';
   static const adminEditName = '/admin/edit-name';
   static const adminAbout = '/admin/about';
+
+
+  static const details = '/admin/details';
+
+
 }
