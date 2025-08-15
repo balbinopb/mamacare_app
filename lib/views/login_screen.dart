@@ -11,6 +11,47 @@ class LoginScreen extends StatelessWidget {
 
   final LoginController controller = Get.put(LoginController());
 
+  void _showRegisterDialog(BuildContext context) {
+    Get.dialog(
+      AlertDialog(
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        contentPadding: const EdgeInsets.all(24),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Image.asset("assets/icons/register_popup_icon.png"),
+            Text(
+              "Register",
+              style: GoogleFonts.poppins(
+                fontSize: 24,
+                fontWeight: FontWeight.w500,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 12),
+            Text(
+              "To register, please visit the Mamacare\nclinic in person. Registration can only be done on-site.",
+              textAlign: TextAlign.start,
+              style: GoogleFonts.poppins(fontSize: 13),
+            ),
+            const SizedBox(height: 16),
+            Align(
+              alignment: Alignment.centerRight,
+              child: TextButton(
+                onPressed: () => Get.back(),
+                child: const Text(
+                  "OK",
+                  style: TextStyle(color: Color(0xFFFBCC25)),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +62,13 @@ class LoginScreen extends StatelessWidget {
           ),
           child: Column(
             children: [
-              LoginHeader(first: "Welcome to \nMamacare", second: "Please login to continue",),
+              // =======HEADER ===============
+              LoginHeader(
+                first: "Welcome to \nMamacare",
+                second: "Please login to continue",
+              ),
+
+              // =========NUMBER PHONE================
               Obx(
                 () => CustomTextfield(
                   title: "Nomor HP",
@@ -30,6 +77,8 @@ class LoginScreen extends StatelessWidget {
                   errorText: controller.emailError.value,
                 ),
               ),
+
+              // =========PASSWORD================
               Obx(
                 () => CustomTextfield(
                   title: "Password",
@@ -40,6 +89,8 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 30),
+
+              // =========FORGOT PASSWORD================
               TextButton(
                 onPressed: () {
                   Get.toNamed(AppRoutes.resetPassword);
@@ -54,6 +105,8 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 30),
+
+              // =========LOGIN BUTTON================
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 28, vertical: 6),
                 child: SizedBox(
@@ -75,6 +128,8 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
               ),
+
+              // =========REGISTER================
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -83,7 +138,7 @@ class LoginScreen extends StatelessWidget {
                     style: GoogleFonts.poppins(fontSize: 14),
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () => _showRegisterDialog(context),
                     child: Text(
                       ' Register',
                       style: GoogleFonts.poppins(

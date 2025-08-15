@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:mamacare/controllers/user/history_controller.dart';
+import 'package:mamacare/widgets/table_history.dart';
 
 class HistoryScreen extends GetView<HistoryController> {
   const HistoryScreen({super.key});
@@ -11,12 +11,12 @@ class HistoryScreen extends GetView<HistoryController> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Preeclampsia History'),
-        // leading: BackButton(),
       ),
       body: Column(
         children: [
           SizedBox(height: 12),
-          // Filter
+
+          // Filter chips
           SizedBox(
             height: 40,
             child: ListView.separated(
@@ -48,58 +48,35 @@ class HistoryScreen extends GetView<HistoryController> {
               },
             ),
           ),
+
           SizedBox(height: 16),
 
-          // Main List
+          // Main list using RiskCard
           Expanded(
             child: Obx(() {
               if (controller.filteredData.isEmpty) {
                 return Center(child: Text('No history found'));
               }
               return ListView.builder(
-                itemCount: controller.filteredData.length,
                 padding: EdgeInsets.symmetric(horizontal: 16),
+                itemCount: controller.filteredData.length,
                 itemBuilder: (context, index) {
                   final item = controller.filteredData[index];
-                  return Container(
-                    margin: EdgeInsets.only(bottom: 12),
-                    padding: EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: controller.getColor(item['level']!),
-                      borderRadius: BorderRadius.circular(16),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black12,
-                          blurRadius: 6,
-                          offset: Offset(0, 3),
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.insert_drive_file,
-                          size: 28,
-                          color: controller.getIconColor(item['level']!),
-                        ),
-                        SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                item['title']!,
-                                style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                ),
-                              ),
-                              SizedBox(height: 4),
-                              Text('${item['time']} • ${item['date']}'),
-                            ],
-                          ),
-                        ),
-                        Icon(Icons.more_vert),
+
+                  return TableHistory(
+                    title: item['title']!,
+                    subtitle: "Preeclampsia Category",
+                    icon: Icons.insert_drive_file,
+                    iconColor: controller.getIconColor(item['level']!),
+                    headers: ["DATE", "MAP", "ROT", "BMI", "SCALE"],
+                    data: List.generate(
+                      4,
+                      (_) => [
+                        "${item['time']} ${item['date']}",
+                        "93",
+                        "25",
+                        "23,4",
+                        "23,4",
                       ],
                     ),
                   );

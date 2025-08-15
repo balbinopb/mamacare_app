@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:mamacare/bindings/admin/admin_bottom_navbar_binding.dart';
+import 'package:mamacare/bindings/admin/user_detail.dart';
 import 'package:mamacare/bindings/user/about_binding.dart';
 import 'package:mamacare/bindings/user/bottom_nav_binding.dart';
 import 'package:mamacare/bindings/login_binding.dart';
@@ -10,6 +11,7 @@ import 'package:mamacare/views/admin/add_user_screen.dart';
 import 'package:mamacare/views/admin/admin_about_screen.dart';
 import 'package:mamacare/views/admin/admin_home_screen.dart';
 import 'package:mamacare/views/admin/admin_setting_screen.dart';
+import 'package:mamacare/views/admin/user_details_screen.dart';
 import 'package:mamacare/views/details_screen.dart';
 import 'package:mamacare/views/login_screen.dart';
 import 'package:mamacare/views/user/about_screen.dart';
@@ -98,6 +100,11 @@ class AppPages {
       name: AppRoutes.adminAbout,
       page: () => AdminAboutScreen(),
       binding: AdminBottomNavbarBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.userdetails,
+      page: () => UserDetailsScreen(),
+      binding: UserDetailBindings(),
     ),
   ];
 }

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mamacare/models/admin/user_model.dart';
-import 'package:mamacare/views/admin/user_details_screen.dart';
 
 class UserTile extends StatelessWidget {
+  final VoidCallback  routeUserDetatis;
   final UserModel user;
   final VoidCallback onDelete;
 
-  const UserTile({super.key, required this.user, required this.onDelete});
+  const UserTile({super.key, required this.user, required this.onDelete, required this.routeUserDetatis});
 
   @override
   Widget build(BuildContext context) {
@@ -17,12 +17,7 @@ class UserTile extends StatelessWidget {
         height: 101,
         child: ListTile(
           leading: GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => UserDetailsScreen()),
-              );
-            },
+            onTap: routeUserDetatis,      
             child: Icon(Icons.person, color: Colors.yellow.shade800, size: 32),
           ),
           title: Column(

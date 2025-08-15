@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mamacare/controllers/admin/admin_home_controller.dart';
+import 'package:mamacare/routes/app_routes.dart';
 import 'package:mamacare/widgets/admin/user_tile.dart';
 
 class AdminHomeScreen extends GetView<AdminHomeController> {
@@ -137,6 +138,8 @@ class AdminHomeScreen extends GetView<AdminHomeController> {
                     itemCount: controller.users.length,
                     itemBuilder: (context, index) {
                       return UserTile(
+                        routeUserDetatis: () =>
+                            Get.toNamed(AppRoutes.userdetails),
                         user: controller.users[index],
                         onDelete: () => controller.deleteUser(index),
                       );

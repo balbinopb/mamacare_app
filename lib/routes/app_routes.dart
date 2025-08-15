@@ -27,6 +27,7 @@ class AppRoutes {
 
 
   static const details = '/admin/details';
+  static const userdetails = '/admin/userdetails';
 
 
 }
