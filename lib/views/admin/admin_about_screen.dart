@@ -1,11 +1,12 @@
+
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:mamacare/controllers/user/about_controller.dart';
+import 'package:mamacare/controllers/admin/admin_about_controller.dart';
+class AdminAboutScreen extends GetView<AdminAboutController> {
+  const AdminAboutScreen({super.key});
 
-class AboutScreen extends GetView<AboutController> {
-  const AboutScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

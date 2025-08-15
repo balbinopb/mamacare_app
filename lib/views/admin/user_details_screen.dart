@@ -1,4 +1,4 @@
-// lib/screens/home_screen.dart
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -9,8 +9,8 @@ import 'package:mamacare/widgets/user/home/map_rot_chart.dart';
 import 'package:mamacare/widgets/user/home/risk_card.dart';
 import 'package:mamacare/widgets/user/home/week_card.dart';
 
-class HomeScreen extends GetView<HomeController> {
-  const HomeScreen({super.key});
+class UserDetailsScreen extends GetView<HomeController>{
+  const UserDetailsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -137,6 +137,6 @@ class HomeScreen extends GetView<HomeController> {
           ),
         ),
       ),
-    );
+    );;
   }
 }

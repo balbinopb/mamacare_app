@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/state_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mamacare/controllers/bottom_controller.dart';
+import 'package:mamacare/controllers/user/bottom_controller.dart';
 
 class BottomNavbar extends GetView<BottomController> {
   const BottomNavbar({super.key});

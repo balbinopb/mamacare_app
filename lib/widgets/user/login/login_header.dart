@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mamacare/widgets/login/header_clipper.dart';
+import 'package:mamacare/widgets/user/login/header_clipper.dart';
 
 class LoginHeader extends StatelessWidget {
-  const LoginHeader({super.key});
+  final String first;
+  final String second;
+  const LoginHeader({super.key, required this.first, required this.second});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class LoginHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Welcome to \nMamacare",
+                first,
                 style: GoogleFonts.poppins(
                   fontSize: 36,
                   fontWeight: FontWeight.w600,
@@ -34,7 +36,7 @@ class LoginHeader extends StatelessWidget {
               ),
               SizedBox(height: 12),
               Text(
-                "Please login to continue",
+                second,
                 style: GoogleFonts.poppins(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,

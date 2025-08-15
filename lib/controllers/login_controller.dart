@@ -26,8 +26,12 @@ class LoginController extends GetxController {
     if (email.isEmpty || password.isEmpty) {      
       return;
     }
-
-    Get.offNamed(AppRoutes.navbar);
+    if(email=="admin"){
+      Get.offNamed(AppRoutes.adminNavbar);
+    }else{
+      Get.offNamed(AppRoutes.userNavbar);
+    }
+    
   }
 
   @override

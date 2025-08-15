@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mamacare/controllers/profile_controller.dart';
+import 'package:mamacare/controllers/user/profile_controller.dart';
 import 'package:mamacare/views/user/edit_name_screen.dart';
-import 'package:mamacare/widgets/profile/input_field.dart';
+import 'package:mamacare/widgets/user/profile/input_field.dart';
 
 class ProfileScreen extends GetView<ProfileController> {
   const ProfileScreen({super.key});

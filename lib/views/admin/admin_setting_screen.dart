@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mamacare/controllers/user/setting_controller.dart';
+import 'package:mamacare/controllers/admin/admin_setting_controller.dart';
 import 'package:mamacare/routes/app_routes.dart';
-import 'package:mamacare/widgets/user/setting/info_card.dart';
 import 'package:mamacare/widgets/user/menu_tile.dart';
 
-class SettingScreen extends GetView<SettingController> {
-  const SettingScreen({super.key});
+class AdminSettingScreen extends GetView<AdminSettingController> {
+  const AdminSettingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,80 +31,43 @@ class SettingScreen extends GetView<SettingController> {
               SizedBox(height: 20),
 
               // Profile avatar
-              CircleAvatar(
-                radius: 65,
-                backgroundColor: Color(0xFFFFB00B),
-                child: CircleAvatar(
-                  radius: 55,
-                  backgroundImage: AssetImage('assets/user.png'),
+              Container(
+                width: 152,
+                height: 152,
+                decoration: BoxDecoration(
+                  color: Color(0xFFFFB10B),
+                  shape: BoxShape.circle,
+                ),
+                child: Transform(
+                  alignment: Alignment.center,
+                  transform: Matrix4.rotationY(3.1416),
+                  child: Image.asset(
+                    'assets/pregnant.png',
+                    width: 118,
+                    height: 118,
+
+                    // color: Colors.white,
+                  ),
                 ),
               ),
               SizedBox(height: 10),
 
-              // Name and age (reactive)
-              Obx(
-                () => Text(
-                  controller.name.value,
-                  style: GoogleFonts.poppins(
-                    fontSize: 32,
-                    fontWeight: FontWeight.w600,
-                  ),
+              // Name and age
+              Text(
+                "Admin mamacare",
+                style: GoogleFonts.poppins(
+                  fontSize: 32,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
-              Obx(
-                () => Text(
-                  '${controller.age.value} years old',
-                  style: GoogleFonts.poppins(fontSize: 14, color: Colors.black),
-                ),
-              ),
-              SizedBox(height: 30),
 
-              // Info cards (trimester, weight, height)
-              Obx(
-                () => Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    InfoCard(
-                      icon: Icons.local_fire_department,
-                      label: 'Trimester',
-                      value: controller.trimester.value.toString(),
-                      unit: 'week',
-                      color: Color(0xFFFAEBEB),
-                      valueColor: Colors.red,
-                    ),
-                    InfoCard(
-                      icon: Icons.monitor_weight,
-                      label: 'Weight',
-                      value: controller.weight.value.toString(),
-                      unit: 'kg',
-                      color: Color(0xFFFFFAEA),
-                      valueColor: Color(0xFFFBCC25),
-                    ),
-                    InfoCard(
-                      icon: Icons.height,
-                      label: 'Height',
-                      value: controller.height.value.toString(),
-                      unit: 'cm',
-                      color: Color(0xFFEEF5F0),
-                      valueColor: Colors.green,
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 30),
+              SizedBox(height: 24),
 
               // Menu options
               MenuTile(
-                icon: Icons.person,
-                title: 'Profile',
-                onTap: () {
-                  Get.toNamed(AppRoutes.userProfile);
-                },
-              ),
-              MenuTile(
                 icon: Icons.info,
                 title: 'About',
-                onTap: () => Get.toNamed(AppRoutes.userAbout),
+                onTap: () => Get.toNamed(AppRoutes.adminAbout),
               ),
               MenuTile(
                 icon: Icons.logout,

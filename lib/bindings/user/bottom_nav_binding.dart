@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
-import 'package:mamacare/controllers/bottom_controller.dart';
-import 'package:mamacare/controllers/history_controller.dart';
-import 'package:mamacare/controllers/home_controller.dart';
-import 'package:mamacare/controllers/setting_controller.dart';
+import 'package:mamacare/controllers/user/bottom_controller.dart';
+import 'package:mamacare/controllers/user/history_controller.dart';
+import 'package:mamacare/controllers/user/home_controller.dart';
+import 'package:mamacare/controllers/user/setting_controller.dart';
 
 class BottomNavBinding extends Bindings {
   @override
