@@ -1,0 +1,12 @@
+final List<Map<String, String>> mockUserData = [
+  {"name": "Alice Johnson", "email": "alice.johnson@gmail.com"},
+  {"name": "Michael Smith", "email": "michael.smith@yahoo.com"},
+  {"name": "Sofia Martinez", "email": "sofia.martinez@hotmail.com"},
+  {"name": "James Lee", "email": "james.lee@gmail.com"},
+  {"name": "Olivia Brown", "email": "olivia.brown@yahoo.com"},
+  {"name": "Ethan Wilson", "email": "ethan.wilson@gmail.com"},
+  {"name": "Emma Davis", "email": "emma.davis@hotmail.com"},
+  {"name": "Daniel Garcia", "email": "daniel.garcia@gmail.com"},
+  {"name": "Ava Taylor", "email": "ava.taylor@yahoo.com"},
+  {"name": "William Thomas", "email": "william.thomas@gmail.com"},
+];
