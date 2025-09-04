@@ -4,11 +4,13 @@ class InputField extends StatelessWidget {
   final String label;
   final TextEditingController? controller;
   final TextInputType? keyboardType;
+  final String? hintText;
   const InputField({
     super.key,
     required this.label,
     this.controller,
     this.keyboardType,
+    required this.hintText,
   });
 
   @override
@@ -22,6 +24,7 @@ class InputField extends StatelessWidget {
           controller: controller,
           keyboardType: keyboardType,
           decoration: InputDecoration(
+            hintText: hintText,
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 16,
               vertical: 14,

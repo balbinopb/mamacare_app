@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mamacare/app/constants/app_colors.dart';
 import 'package:mamacare/app/routes/app_pages.dart';
 import 'package:mamacare/app/widgets/general/menu_tile.dart';
 import '../controllers/admin_setting_controller.dart';
@@ -44,7 +45,7 @@ class AdminSettingView extends GetView<AdminSettingController> {
                     width: 118,
                     height: 118,
 
-                    // color: Colors.white,
+                    // color: AppColors.white,
                   ),
                 ),
               ),
@@ -73,7 +74,7 @@ class AdminSettingView extends GetView<AdminSettingController> {
                 onTap: () {
                   Get.dialog(
                     AlertDialog(
-                      backgroundColor: Colors.white,
+                      backgroundColor: AppColors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                       ),
@@ -84,7 +85,7 @@ class AdminSettingView extends GetView<AdminSettingController> {
                           Icon(
                             Icons.logout,
                             size: 48,
-                            color: Color(0xFFFBCC25),
+                            color: AppColors.yellow1,
                           ),
                           SizedBox(height: 16),
                           Text(
@@ -109,7 +110,7 @@ class AdminSettingView extends GetView<AdminSettingController> {
                                 onPressed: () => Get.back(),
                                 child: Text(
                                   "Cancel",
-                                  style: TextStyle(color: Color(0xFFFBCC25)),
+                                  style: TextStyle(color: AppColors.yellow1),
                                 ),
                               ),
                               TextButton(
@@ -119,7 +120,7 @@ class AdminSettingView extends GetView<AdminSettingController> {
                                 },
                                 child: Text(
                                   "OK",
-                                  style: TextStyle(color: Color(0xFFFBCC25)),
+                                  style: TextStyle(color: AppColors.yellow1),
                                 ),
                               ),
                             ],

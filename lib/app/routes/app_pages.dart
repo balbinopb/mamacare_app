@@ -12,6 +12,8 @@ import '../modules/admin/admin_setting/bindings/admin_setting_binding.dart';
 import '../modules/admin/admin_setting/views/admin_setting_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
+import '../modules/user_details/bindings/user_details_binding.dart';
+import '../modules/user_details/views/user_details_view.dart';
 
 part 'app_routes.dart';
 
@@ -50,6 +52,11 @@ class AppPages {
       name: _Paths.ADMIN_ABOUT,
       page: () => const AdminAboutView(),
       binding: AdminAboutBinding(),
+    ),
+    GetPage(
+      name: _Paths.USER_DETAILS,
+      page: () => const UserDetailsView(),
+      binding: UserDetailsBinding(),
     ),
   ];
 }

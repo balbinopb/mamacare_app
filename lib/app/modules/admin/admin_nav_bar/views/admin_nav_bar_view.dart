@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mamacare/app/constants/app_colors.dart';
 
 import '../controllers/admin_nav_bar_controller.dart';
 
@@ -31,7 +32,7 @@ class AdminNavBarView extends GetView<AdminNavBarController> {
           currentIndex: controller.selectedIndex.value,
           selectedItemColor: Colors.amber,
           unselectedItemColor: Colors.grey,
-          backgroundColor: Colors.white,
+          backgroundColor: AppColors.white,
           unselectedLabelStyle: GoogleFonts.poppins(
             fontSize: 12,
             fontWeight: FontWeight.w600,

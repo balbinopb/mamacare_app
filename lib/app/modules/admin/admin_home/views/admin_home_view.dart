@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mamacare/app/constants/app_colors.dart';
 import 'package:mamacare/app/widgets/admin/user_tile.dart';
 
 import '../controllers/admin_home_controller.dart';
@@ -44,7 +45,7 @@ class AdminHomeView extends GetView<AdminHomeController> {
                     Icon(
                       Icons.notifications,
                       size: 40,
-                      color: Color(0xFFFBCC25),
+                      color: AppColors.yellow1,
                     ),
                   ],
                 ),
@@ -58,15 +59,15 @@ class AdminHomeView extends GetView<AdminHomeController> {
                   decoration: InputDecoration(
                     hintText: 'Search user ...',
                     prefixIcon: Icon(Icons.search),
-                    suffixIcon: Icon(Icons.tune, color: Color(0xFFFBCC25)),
+                    suffixIcon: Icon(Icons.tune, color: AppColors.yellow1),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: Color(0xFFFBCC25)),
+                      borderSide: BorderSide(color: AppColors.yellow1),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide(
-                        color: Color(0xFFFBCC25),
+                        color: AppColors.yellow1,
                         width: 2,
                       ),
                     ),
@@ -107,7 +108,7 @@ class AdminHomeView extends GetView<AdminHomeController> {
                               'Total Users',
                               style: GoogleFonts.poppins(
                                 fontSize: 18,
-                                color: Colors.black,
+                                color: AppColors.black,
                               ),
                             ),
                             SizedBox(height: 4),
@@ -116,7 +117,7 @@ class AdminHomeView extends GetView<AdminHomeController> {
                               style: GoogleFonts.poppins(
                                 fontSize: 36,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.black,
+                                color: AppColors.black,
                               ),
                             ),
                           ],

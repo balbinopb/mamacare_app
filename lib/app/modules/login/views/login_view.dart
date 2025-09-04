@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mamacare/app/constants/app_colors.dart';
 import 'package:mamacare/app/widgets/general/custom_textfield.dart';
 import 'package:mamacare/app/widgets/general/login_header.dart';
 
@@ -45,7 +46,7 @@ class LoginView extends GetView<LoginController> {
                 child: Text(
                   "Forgot Password?",
                   style: GoogleFonts.poppins(
-                    color: Color(0xFFFBCC25),
+                    color: AppColors.yellow1,
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                   ),
@@ -59,7 +60,7 @@ class LoginView extends GetView<LoginController> {
                   child: FilledButton(
                     onPressed: controller.login,
                     style: FilledButton.styleFrom(
-                      backgroundColor: Color(0xFFFBCC25),
+                      backgroundColor: AppColors.yellow1,
                       padding: EdgeInsets.symmetric(vertical: 14),
                       textStyle: TextStyle(
                         fontSize: 16,
@@ -85,7 +86,7 @@ class LoginView extends GetView<LoginController> {
                     child: Text(
                       ' Register',
                       style: GoogleFonts.poppins(
-                        color: Color(0xFFFBCC25),
+                        color: AppColors.yellow1,
                         fontSize: 14,
                       ),
                     ),

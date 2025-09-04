@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mamacare/app/constants/app_colors.dart';
 
 class CustomTextfield extends StatefulWidget {
   final String title;
@@ -60,7 +61,7 @@ class _CustomTextfieldState extends State<CustomTextfield> {
                     )
                   : null,
               errorText: widget.errorText,
-              errorStyle: const TextStyle(color: Color(0xFFFBCC25)),
+              errorStyle: const TextStyle(color: AppColors.yellow1),
               hintText: widget.placeholder,
               contentPadding: const EdgeInsets.symmetric(
                 horizontal: 12,
@@ -78,12 +79,12 @@ class _CustomTextfieldState extends State<CustomTextfield> {
                 ),
               ),
               errorBorder: OutlineInputBorder(
-                borderSide: const BorderSide(color: Color(0xFFFBCC25)),
+                borderSide: const BorderSide(color: AppColors.yellow1),
                 borderRadius: BorderRadius.circular(8),
               ),
               focusedErrorBorder: OutlineInputBorder(
                 borderSide: const BorderSide(
-                  color: Color(0xFFFBCC25),
+                  color: AppColors.yellow1,
                   width: 2,
                 ),
                 borderRadius: BorderRadius.circular(8),
