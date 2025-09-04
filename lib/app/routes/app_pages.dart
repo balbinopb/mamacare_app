@@ -14,12 +14,15 @@ import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/user_details/bindings/user_details_binding.dart';
 import '../modules/user_details/views/user_details_view.dart';
+import '../modules/user_history/bindings/user_history_binding.dart';
+import '../modules/user_history/views/user_history_view.dart';
 
 part 'app_routes.dart';
 
 class AppPages {
   AppPages._();
 
+  // ignore: constant_identifier_names
   static const INITIAL = Routes.LOGIN;
 
   static final routes = [
@@ -57,6 +60,11 @@ class AppPages {
       name: _Paths.USER_DETAILS,
       page: () => const UserDetailsView(),
       binding: UserDetailsBinding(),
+    ),
+    GetPage(
+      name: _Paths.USER_HISTORY,
+      page: () => const UserHistoryView(),
+      binding: UserHistoryBinding(),
     ),
   ];
 }

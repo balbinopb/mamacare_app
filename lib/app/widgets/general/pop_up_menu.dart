@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mamacare/app/constants/app_colors.dart';
+import 'package:mamacare/app/routes/app_pages.dart';
 
 class PopUpMenu extends StatefulWidget {
   const PopUpMenu({super.key});
@@ -32,7 +33,7 @@ class _PopUpMenuState extends State<PopUpMenu> {
               child: GestureDetector(
                 onTap: () {
                   _popupEntry?.remove();
-                  // Get.toNamed(AppRoutes.userHistory);
+                  Get.toNamed(Routes.USER_HISTORY);
                 },
                 child: Container(
                   width: 130,

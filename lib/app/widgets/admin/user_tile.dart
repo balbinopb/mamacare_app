@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:mamacare/app/constants/app_colors.dart';
 import 'package:mamacare/app/data/models/user_model/user_model.dart';
-
 
 class UserTile extends StatelessWidget {
   final UserModel user;
   final VoidCallback onDelete;
+  final VoidCallback routeUserDetatis;
 
-  const UserTile({super.key, required this.user, required this.onDelete});
+  const UserTile({
+    super.key,
+    required this.user,
+    required this.onDelete,
+    required this.routeUserDetatis,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      // margin: const EdgeInsets.symmetric(vertical: 4),
-      color: Colors.white,
+      color: AppColors.white,
       child: SizedBox(
         height: 101,
         child: ListTile(
           leading: GestureDetector(
-            onTap: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (_) => UserDetailsScreen()),
-              // );
-            },
+            onTap: routeUserDetatis,
             child: Icon(Icons.person, color: Colors.yellow.shade800, size: 32),
           ),
           title: Column(
@@ -34,7 +34,7 @@ class UserTile extends StatelessWidget {
             ],
           ),
           trailing: IconButton(
-            icon: const Icon(Icons.delete_outline),
+            icon: Icon(Icons.delete_outline),
             onPressed: onDelete,
           ),
         ),
