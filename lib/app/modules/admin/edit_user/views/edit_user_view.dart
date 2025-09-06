@@ -191,6 +191,5 @@ class EditUserView extends GetView<EditUserController> {
         ),
       ),
     );
-    ;
   }
 }

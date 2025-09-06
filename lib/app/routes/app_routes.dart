@@ -14,6 +14,11 @@ abstract class Routes {
   static const USER_DETAILS = _Paths.USER_DETAILS;
   static const USER_HISTORY = _Paths.USER_HISTORY;
   static const EDIT_USER = _Paths.EDIT_USER;
+  static const USER_NAV_BAR = _Paths.USER_NAV_BAR;
+  static const USER_HOME = _Paths.USER_HOME;
+  static const USER_SETTING = _Paths.USER_SETTING;
+  static const USER_PROFILE = _Paths.USER_PROFILE;
+  static const EDIT_NAME = _Paths.EDIT_NAME;
 }
 
 abstract class _Paths {
@@ -28,4 +33,9 @@ abstract class _Paths {
   static const USER_DETAILS = '/user-details';
   static const USER_HISTORY = '/user-history';
   static const EDIT_USER = '/edit-user';
+  static const USER_NAV_BAR = '/user-nav-bar';
+  static const USER_HOME = '/user-home';
+  static const USER_SETTING = '/user-setting';
+  static const USER_PROFILE = '/user-profile';
+  static const EDIT_NAME = '/edit-name';
 }

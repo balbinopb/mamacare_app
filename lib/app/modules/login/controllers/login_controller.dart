@@ -30,11 +30,10 @@ class LoginController extends GetxController {
       return;
     }
     if(email=="admin"){
-      // Get.offNamed(AppRoutes.adminNavbar);
       Get.offNamed(Routes.ADMIN_NAV_BAR);
 
     }else{
-      // Get.offNamed(AppRoutes.userNavbar);
+      Get.offNamed(Routes.USER_NAV_BAR);
     }
     
   }
