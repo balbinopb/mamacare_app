@@ -7,14 +7,18 @@ import 'package:mamacare/logger_debug.dart';
 
 class AddUserController extends GetxController {
   final nameController = TextEditingController();
-  final emailController = TextEditingController();
   final phoneController = TextEditingController();
   final dobController = TextEditingController();
+  final ageController = TextEditingController();
   final husbandNameController = TextEditingController();
+  final pregnancyNumberController = TextEditingController();
+  final miscarriageController = TextEditingController();
+  final childbirthController = TextEditingController();
   final firstDayOfLastPeriodController = TextEditingController();
+  final estimatedBirthDateController = TextEditingController();
   final weightController = TextEditingController();
   final heightController = TextEditingController();
-  final hplController = TextEditingController();
+  final upperArmCircumferenceController = TextEditingController();
 
   var pickedImage = Rx<File?>(null);
 
@@ -32,10 +36,18 @@ class AddUserController extends GetxController {
   @override
   void onClose() {
     nameController.dispose();
-    emailController.dispose();
     phoneController.dispose();
     dobController.dispose();
+    ageController.dispose();
     husbandNameController.dispose();
+    pregnancyNumberController.dispose();
+    miscarriageController.dispose();
+    childbirthController.dispose();
+    firstDayOfLastPeriodController.dispose();
+    estimatedBirthDateController.dispose();
+    weightController.dispose();
+    heightController.dispose();
+    upperArmCircumferenceController.dispose();
     super.onClose();
   }
 }

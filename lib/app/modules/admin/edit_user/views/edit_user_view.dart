@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mamacare/app/constants/app_colors.dart';
 import 'package:mamacare/app/widgets/admin/input_field.dart';
-// import 'package:mamacare/logger_debug.dart';
-import '../controllers/add_user_controller.dart';
 
-class AddUserView extends GetView<AddUserController> {
-  const AddUserView({super.key});
+import '../controllers/edit_user_controller.dart';
+
+class EditUserView extends GetView<EditUserController> {
+  const EditUserView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,33 +90,35 @@ class AddUserView extends GetView<AddUserController> {
                 SizedBox(height: 30),
                 InputField(
                   label: "Nama Ibu Hamil",
-                  controller: controller.nameController,
+                  controller: controller.addUserController.nameController,
                   hintText: 'Nama lengkap',
                 ),
                 InputField(
                   label: "No Hp",
-                  controller: controller.phoneController,
+                  controller: controller.addUserController.phoneController,
                   keyboardType: TextInputType.phone,
                   hintText: 'No Hp',
                 ),
                 InputField(
                   label: "Tanggal Lahir Ibu Hamil",
-                  controller: controller.dobController,
+                  controller: controller.addUserController.dobController,
                   hintText: 'DD/MM/YYYY',
                 ),
                 InputField(
                   label: "Usia Ibu Hamil",
-                  controller: controller.dobController,
+                  controller: controller.addUserController.dobController,
                   hintText: '23',
                 ),
                 InputField(
                   label: "Nama Suami",
-                  controller: controller.husbandNameController,
+                  controller:
+                      controller.addUserController.husbandNameController,
                   hintText: "Nama Suami",
                 ),
                 InputField(
                   label: "Kehamilan ke",
-                  controller: controller.pregnancyNumberController,
+                  controller:
+                      controller.addUserController.pregnancyNumberController,
                   hintText: '2',
                 ),
 
@@ -124,7 +127,8 @@ class AddUserView extends GetView<AddUserController> {
                     Expanded(
                       child: InputField(
                         label: "Keguguran",
-                        controller: controller.miscarriageController,
+                        controller:
+                            controller.addUserController.miscarriageController,
                         hintText: '0',
                       ),
                     ),
@@ -132,7 +136,8 @@ class AddUserView extends GetView<AddUserController> {
                     Expanded(
                       child: InputField(
                         label: "Melahirkan",
-                        controller: controller.childbirthController,
+                        controller:
+                            controller.addUserController.childbirthController,
                         hintText: '2',
                       ),
                     ),
@@ -141,12 +146,15 @@ class AddUserView extends GetView<AddUserController> {
 
                 InputField(
                   label: "Hari Pertama Haid Terakhir",
-                  controller: controller.firstDayOfLastPeriodController,
+                  controller: controller
+                      .addUserController
+                      .firstDayOfLastPeriodController,
                   hintText: 'DD/MM/YYYY',
                 ),
                 InputField(
                   label: "Hari Perkiraan Lahir",
-                  controller: controller.estimatedBirthDateController,
+                  controller:
+                      controller.addUserController.estimatedBirthDateController,
                   hintText: 'DD/MM/YYYY',
                 ),
                 Row(
@@ -154,7 +162,8 @@ class AddUserView extends GetView<AddUserController> {
                     Expanded(
                       child: InputField(
                         label: "Weight(Kg)",
-                        controller: controller.weightController,
+                        controller:
+                            controller.addUserController.weightController,
                         hintText: '55',
                       ),
                     ),
@@ -162,7 +171,8 @@ class AddUserView extends GetView<AddUserController> {
                     Expanded(
                       child: InputField(
                         label: "Height(Cm)",
-                        controller: controller.heightController,
+                        controller:
+                            controller.addUserController.heightController,
                         hintText: '165',
                       ),
                     ),
@@ -170,7 +180,9 @@ class AddUserView extends GetView<AddUserController> {
                 ),
                 InputField(
                   label: "Lingkar Lengan Atas(cm)",
-                  controller: controller.upperArmCircumferenceController,
+                  controller: controller
+                      .addUserController
+                      .upperArmCircumferenceController,
                   hintText: '30',
                 ),
               ],
@@ -179,5 +191,6 @@ class AddUserView extends GetView<AddUserController> {
         ),
       ),
     );
+    ;
   }
 }

@@ -62,7 +62,7 @@ class LoginView extends GetView<LoginController> {
                     style: FilledButton.styleFrom(
                       backgroundColor: AppColors.yellow1,
                       padding: EdgeInsets.symmetric(vertical: 14),
-                      textStyle: TextStyle(
+                      textStyle: GoogleFonts.poppins(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
@@ -70,7 +70,7 @@ class LoginView extends GetView<LoginController> {
                         borderRadius: BorderRadius.circular(24),
                       ),
                     ),
-                    child: Text("Login", style: TextStyle(color: Colors.black)),
+                    child: Text("Login", style: GoogleFonts.poppins(color: Colors.black)),
                   ),
                 ),
               ),

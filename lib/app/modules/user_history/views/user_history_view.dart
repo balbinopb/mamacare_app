@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:mamacare/app/constants/app_colors.dart';
 import 'package:mamacare/app/widgets/general/map_rot_chart.dart';
 import 'package:mamacare/app/widgets/general/table_history.dart';
-
 import '../controllers/user_history_controller.dart';
 
 class UserHistoryView extends GetView<UserHistoryController> {
@@ -16,7 +14,7 @@ class UserHistoryView extends GetView<UserHistoryController> {
       appBar: AppBar(
         title: Text(
           'Preeclampsia History',
-          style: TextStyle(color: Colors.black),
+          style: GoogleFonts.poppins(color: Colors.black),
         ),
         backgroundColor: AppColors.white,
         surfaceTintColor: Colors.transparent,
@@ -50,7 +48,7 @@ class UserHistoryView extends GetView<UserHistoryController> {
                     //           ),
                     //           label: Text(
                     //             filter,
-                    //             style: TextStyle(
+                    //             style: GoogleFonts.poppins(
                     //               color: isSelected ? Colors.white : Colors.black,
                     //               fontWeight: FontWeight.w600,
                     //             ),

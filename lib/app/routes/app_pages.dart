@@ -10,6 +10,8 @@ import '../modules/admin/admin_nav_bar/bindings/admin_nav_bar_binding.dart';
 import '../modules/admin/admin_nav_bar/views/admin_nav_bar_view.dart';
 import '../modules/admin/admin_setting/bindings/admin_setting_binding.dart';
 import '../modules/admin/admin_setting/views/admin_setting_view.dart';
+import '../modules/admin/edit_user/bindings/edit_user_binding.dart';
+import '../modules/admin/edit_user/views/edit_user_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/user_details/bindings/user_details_binding.dart';
@@ -65,6 +67,11 @@ class AppPages {
       name: _Paths.USER_HISTORY,
       page: () => const UserHistoryView(),
       binding: UserHistoryBinding(),
+    ),
+    GetPage(
+      name: _Paths.EDIT_USER,
+      page: () => const EditUserView(),
+      binding: EditUserBinding(),
     ),
   ];
 }

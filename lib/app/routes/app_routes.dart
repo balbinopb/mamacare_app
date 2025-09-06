@@ -13,6 +13,7 @@ abstract class Routes {
   static const ADMIN_ABOUT = _Paths.ADMIN_ABOUT;
   static const USER_DETAILS = _Paths.USER_DETAILS;
   static const USER_HISTORY = _Paths.USER_HISTORY;
+  static const EDIT_USER = _Paths.EDIT_USER;
 }
 
 abstract class _Paths {
@@ -26,4 +27,5 @@ abstract class _Paths {
   static const ADMIN_ABOUT = '/admin-about';
   static const USER_DETAILS = '/user-details';
   static const USER_HISTORY = '/user-history';
+  static const EDIT_USER = '/edit-user';
 }

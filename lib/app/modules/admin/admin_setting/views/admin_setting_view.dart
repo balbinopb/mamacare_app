@@ -23,7 +23,7 @@ class AdminSettingView extends GetView<AdminSettingController> {
                   // SizedBox(width: 10),
                   Text(
                     'Setting',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                    style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w600),
                   ),
                 ],
               ),
@@ -110,7 +110,7 @@ class AdminSettingView extends GetView<AdminSettingController> {
                                 onPressed: () => Get.back(),
                                 child: Text(
                                   "Cancel",
-                                  style: TextStyle(color: AppColors.yellow1),
+                                  style: GoogleFonts.poppins(color: AppColors.yellow1),
                                 ),
                               ),
                               TextButton(
@@ -120,7 +120,7 @@ class AdminSettingView extends GetView<AdminSettingController> {
                                 },
                                 child: Text(
                                   "OK",
-                                  style: TextStyle(color: AppColors.yellow1),
+                                  style: GoogleFonts.poppins(color: AppColors.yellow1),
                                 ),
                               ),
                             ],

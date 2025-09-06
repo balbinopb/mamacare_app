@@ -50,7 +50,7 @@ class UserDetailsView extends GetView<UserDetailsController> {
                           SizedBox(height: 4),
                           Text(
                             "${controller.hour.value}  ${controller.date.value}",
-                            style: TextStyle(
+                            style: GoogleFonts.poppins(
                               fontSize: 14,
                               color: Colors.grey[600],
                             ),

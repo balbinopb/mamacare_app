@@ -29,7 +29,7 @@ class AdminHomeView extends GetView<AdminHomeController> {
                       children: [
                         Text(
                           'Hai Admin',
-                          style: TextStyle(
+                          style: GoogleFonts.poppins(
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
                           ),
@@ -38,7 +38,7 @@ class AdminHomeView extends GetView<AdminHomeController> {
                         Obx(
                           () => Text(
                             controller.currentTime.value,
-                            style: TextStyle(color: Colors.grey[600]),
+                            style: GoogleFonts.poppins(color: Colors.grey[600]),
                           ),
                         ),
                       ],
@@ -136,7 +136,7 @@ class AdminHomeView extends GetView<AdminHomeController> {
                 // User list
                 Text(
                   'User List',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 8),
                 Expanded(
