@@ -38,6 +38,14 @@ class LoginController extends GetxController {
     
   }
 
+  Future<void> onRefresh() async {
+    await Future.delayed(const Duration(milliseconds: 500));
+    emailController.clear();
+    passwordController.clear();
+    emailError.value = null;
+    passwordError.value = null;
+  }
+
   @override
   void onClose() {
     emailController.dispose();
