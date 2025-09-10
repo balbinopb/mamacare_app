@@ -5,12 +5,16 @@ class InputField extends StatelessWidget {
   final TextEditingController? controller;
   final TextInputType? keyboardType;
   final String? hintText;
+  final VoidCallback? ontap;
+  final bool readOnly;
   const InputField({
     super.key,
     required this.label,
     this.controller,
     this.keyboardType,
     required this.hintText,
+    this.ontap,
+    this.readOnly=false
   });
 
   @override
@@ -23,6 +27,8 @@ class InputField extends StatelessWidget {
         TextField(
           controller: controller,
           keyboardType: keyboardType,
+          onTap: ontap,
+          readOnly: readOnly,
           decoration: InputDecoration(
             hintText: hintText,
             contentPadding: const EdgeInsets.symmetric(

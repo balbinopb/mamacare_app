@@ -30,7 +30,7 @@ class UserTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(user.name),
-              Text(user.email, style: Theme.of(context).textTheme.bodySmall),
+              Text(user.phone, style: Theme.of(context).textTheme.bodySmall),
             ],
           ),
           trailing: IconButton(

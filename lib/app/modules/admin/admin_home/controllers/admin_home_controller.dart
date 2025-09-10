@@ -1,13 +1,15 @@
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:mamacare/app/data/models/user_model/user_model.dart';
-import 'package:mamacare/app/demo_data/mock_user_data.dart';
 import 'package:intl/intl.dart';
+import 'package:mamacare/app/data/models/user_model/user_model.dart';
+import 'package:mamacare/logger_debug.dart';
 
 class AdminHomeController extends GetxController {
   TextEditingController searchC = TextEditingController();
-  final demoUsers = <UserModel>[].obs;
+  final users = <UserModel>[].obs;
   final searchUser = <UserModel>[].obs;
 
   var currentTime = ''.obs;
@@ -21,19 +23,23 @@ class AdminHomeController extends GetxController {
     _updateTime();
     _timer = Timer.periodic(const Duration(seconds: 1), (_) => _updateTime());
 
-    // load mock dat
-    demoUsers.assignAll(
-      List.generate(
-        mockUserData.length,
-        (index) => UserModel(
-          name: mockUserData[index]['name']!,
-          email: mockUserData[index]['email']!,
-        ),
-      ),
-    );
+    // get current admin id
+    final adminId = FirebaseAuth.instance.currentUser?.uid;
+    if (adminId != null) {
+      FirebaseFirestore.instance
+          .collection('sensorData')
+          .doc(adminId)
+          .collection('users')
+          .snapshots()
+          .listen((snapshot) {
+            final fetchedUsers = snapshot.docs
+                .map((doc) => UserModel.fromMap(doc.id, doc.data()))
+                .toList();
 
-    // show all default
-    searchUser.assignAll(demoUsers);
+            users.assignAll(fetchedUsers);
+            searchUser.assignAll(fetchedUsers);
+          });
+    }
   }
 
   void _updateTime() {
@@ -41,30 +47,58 @@ class AdminHomeController extends GetxController {
     currentTime.value = DateFormat('hh:mm a  dd MMMM yyyy').format(now);
   }
 
-  int get userCount => demoUsers.length;
+  int get userCount => users.length;
 
-  void deleteUser(int index) {
+  Future<void> deleteUser(int index) async {
+    final adminId = FirebaseAuth.instance.currentUser?.uid;
+    if (adminId == null) return;
+
     final userToDelete = searchUser[index];
-    demoUsers.remove(userToDelete);
-    filteUser(searchC.text); // refresh filtered list
+    await FirebaseFirestore.instance
+        .collection('sensorData')
+        .doc(adminId)
+        .collection('users')
+        .doc(userToDelete.id)
+        .delete();
   }
 
-  void filteUser(String keyword) {
+  void filterUser(String keyword) {
+    logger.d("Value $keyword");
     final lowerKeyword = keyword.toLowerCase();
     if (lowerKeyword.isEmpty) {
-      searchUser.assignAll(demoUsers);
+      searchUser.assignAll(users);
     } else {
       searchUser.assignAll(
-        demoUsers.where(
-          (user) => user.name.toLowerCase().contains(lowerKeyword),
-        ),
+        users.where((user) => user.name.toLowerCase().contains(lowerKeyword)),
       );
     }
   }
 
+
+  Future<void> getUsers() async {
+    //pull to refresh
+    final adminId = FirebaseAuth.instance.currentUser?.uid;
+    if (adminId == null) return;
+
+    final snapshot = await FirebaseFirestore.instance
+        .collection('sensorData')
+        .doc(adminId)
+        .collection('users')
+        .get();
+
+    final fetchedUsers = snapshot.docs
+        .map((doc) => UserModel.fromMap(doc.id, doc.data()))
+        .toList();
+
+    users.assignAll(fetchedUsers);
+    searchUser.assignAll(fetchedUsers);
+  }
+
+
   @override
   void onClose() {
     _timer?.cancel();
+    searchC.dispose();
     super.onClose();
   }
 }

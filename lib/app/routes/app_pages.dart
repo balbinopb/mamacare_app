@@ -14,20 +14,12 @@ import '../modules/admin/edit_user/bindings/edit_user_binding.dart';
 import '../modules/admin/edit_user/views/edit_user_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
-// import '../modules/user/edit_name/bindings/edit_name_binding.dart';
-// import '../modules/user/edit_name/views/edit_name_view.dart';
-import '../modules/user/user_home/bindings/user_home_binding.dart';
-import '../modules/user/user_home/views/user_home_view.dart';
-import '../modules/user/user_nav_bar/bindings/user_nav_bar_binding.dart';
-import '../modules/user/user_nav_bar/views/user_nav_bar_view.dart';
-import '../modules/user/user_profile/bindings/user_profile_binding.dart';
-import '../modules/user/user_profile/views/user_profile_view.dart';
-import '../modules/user/user_setting/bindings/user_setting_binding.dart';
-import '../modules/user/user_setting/views/user_setting_view.dart';
 import '../modules/user_details/bindings/user_details_binding.dart';
 import '../modules/user_details/views/user_details_view.dart';
 import '../modules/user_history/bindings/user_history_binding.dart';
 import '../modules/user_history/views/user_history_view.dart';
+import '../modules/admin/verify_otp/bindings/verify_otp_binding.dart';
+import '../modules/admin/verify_otp/views/verify_otp_view.dart';
 
 part 'app_routes.dart';
 
@@ -84,29 +76,9 @@ class AppPages {
       binding: EditUserBinding(),
     ),
     GetPage(
-      name: _Paths.USER_NAV_BAR,
-      page: () => const UserNavBarView(),
-      binding: UserNavBarBinding(),
+      name: _Paths.VERIFY_OTP,
+      page: () => const VerifyOtpView(),
+      binding: VerifyOtpBinding(),
     ),
-    GetPage(
-      name: _Paths.USER_HOME,
-      page: () => const UserHomeView(),
-      binding: UserHomeBinding(),
-    ),
-    GetPage(
-      name: _Paths.USER_SETTING,
-      page: () => const UserSettingView(),
-      binding: UserSettingBinding(),
-    ),
-    GetPage(
-      name: _Paths.USER_PROFILE,
-      page: () => const UserProfileView(),
-      binding: UserProfileBinding(),
-    ),
-    // GetPage(
-    //   name: _Paths.EDIT_NAME,
-    //   page: () => const EditNameView(),
-    //   binding: EditNameBinding(),
-    // ),
   ];
 }

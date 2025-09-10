@@ -7,7 +7,36 @@ import 'package:mamacare/app/widgets/admin/input_field.dart';
 import '../controllers/add_user_controller.dart';
 
 class AddUserView extends GetView<AddUserController> {
+  Future<void> _pickDate(BuildContext context, String field) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: const ColorScheme.light(
+              primary: Colors.amber,
+              onPrimary: Colors.white,
+              onSurface: Colors.black,
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(foregroundColor: Colors.amber),
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (picked != null) {
+      controller.updateDate(field, picked);
+    }
+  }
+
   const AddUserView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +73,14 @@ class AddUserView extends GetView<AddUserController> {
                             ),
                           ],
                         ),
-                        Icon(Icons.check, color: AppColors.yellow1, size: 24),
+                        IconButton(
+                          onPressed: controller.saveUser,
+                          icon: Icon(
+                            Icons.check,
+                            color: AppColors.yellow1,
+                            size: 24,
+                          ),
+                        ),
                       ],
                     ),
                   ],
@@ -102,10 +138,12 @@ class AddUserView extends GetView<AddUserController> {
                   label: "Tanggal Lahir Ibu Hamil",
                   controller: controller.dobController,
                   hintText: 'DD/MM/YYYY',
+                  readOnly: true,
+                  ontap: () => _pickDate(context, 'dob'),
                 ),
                 InputField(
                   label: "Usia Ibu Hamil",
-                  controller: controller.dobController,
+                  controller: controller.ageController,
                   hintText: '23',
                 ),
                 InputField(
@@ -143,11 +181,15 @@ class AddUserView extends GetView<AddUserController> {
                   label: "Hari Pertama Haid Terakhir",
                   controller: controller.firstDayOfLastPeriodController,
                   hintText: 'DD/MM/YYYY',
+                  readOnly: true,
+                  ontap: ()=> _pickDate(context,'firstDayOfLastPeriod'),
                 ),
                 InputField(
                   label: "Hari Perkiraan Lahir",
                   controller: controller.estimatedBirthDateController,
                   hintText: 'DD/MM/YYYY',
+                  readOnly: true,
+                  ontap: () => _pickDate(context, 'estimatedBirthDate'),
                 ),
                 Row(
                   children: [

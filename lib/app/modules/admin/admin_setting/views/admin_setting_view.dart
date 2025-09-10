@@ -115,7 +115,7 @@ class AdminSettingView extends GetView<AdminSettingController> {
                               ),
                               TextButton(
                                 onPressed: () {
-                                  Get.back();
+                                  // Get.back();
                                   controller.logout();
                                 },
                                 child: Text(

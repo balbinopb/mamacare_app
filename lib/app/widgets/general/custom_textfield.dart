@@ -33,19 +33,20 @@ class _CustomTextfieldState extends State<CustomTextfield> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 6),
+      padding: EdgeInsets.symmetric(horizontal: 28, vertical: 6),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             widget.title,
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8),
           TextField(
             controller: widget.controller,
             obscureText: _obscureText,
             showCursor: true,
+            keyboardType: TextInputType.phone, //jika hanya input nomor
             decoration: InputDecoration(
               suffixIcon: widget.isPassword
                   ? IconButton(
@@ -61,32 +62,26 @@ class _CustomTextfieldState extends State<CustomTextfield> {
                     )
                   : null,
               errorText: widget.errorText,
-              errorStyle: const TextStyle(color: AppColors.yellow1),
+              errorStyle: TextStyle(color: AppColors.yellow1),
               hintText: widget.placeholder,
-              contentPadding: const EdgeInsets.symmetric(
+              contentPadding: EdgeInsets.symmetric(
                 horizontal: 12,
                 vertical: 14,
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(color: Color(0xFFAAAAAD)),
+                borderSide: BorderSide(color: Color(0xFFAAAAAD)),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(
-                  color: Color(0xFFFFB00B),
-                  width: 2,
-                ),
+                borderSide: BorderSide(color: Color(0xFFFFB00B), width: 2),
               ),
               errorBorder: OutlineInputBorder(
-                borderSide: const BorderSide(color: AppColors.yellow1),
+                borderSide: BorderSide(color: AppColors.yellow1),
                 borderRadius: BorderRadius.circular(8),
               ),
               focusedErrorBorder: OutlineInputBorder(
-                borderSide: const BorderSide(
-                  color: AppColors.yellow1,
-                  width: 2,
-                ),
+                borderSide: BorderSide(color: AppColors.yellow1, width: 2),
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
