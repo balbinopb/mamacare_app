@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mamacare/app/constants/app_colors.dart';
 
 class InfoCard extends StatelessWidget {
   final IconData icon;
@@ -42,14 +43,14 @@ class InfoCard extends StatelessWidget {
                   style: GoogleFonts.poppins(
                     fontSize: 32,
                     fontWeight: FontWeight.w600,
-                    color: Colors.black,
+                    color: AppColors.black,
                   ),
                 ),
                 TextSpan(
                   text: ' $unit',
                   style: TextStyle(
                     fontSize: 12,
-                    color: Colors.black,
+                    color: AppColors.black,
                     fontWeight: FontWeight.w600,
                   ),
                 ),

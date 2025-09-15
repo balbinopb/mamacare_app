@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mamacare/app/constants/app_colors.dart';
-import 'package:mamacare/app/routes/app_pages.dart';
 import 'package:mamacare/app/widgets/admin/user_tile.dart';
 
 import '../controllers/admin_home_controller.dart';
@@ -41,7 +40,9 @@ class AdminHomeView extends GetView<AdminHomeController> {
                           Obx(
                             () => Text(
                               controller.currentTime.value,
-                              style: GoogleFonts.poppins(color: Colors.grey[600]),
+                              style: GoogleFonts.poppins(
+                                color: Colors.grey[600],
+                              ),
                             ),
                           ),
                         ],
@@ -53,9 +54,9 @@ class AdminHomeView extends GetView<AdminHomeController> {
                       ),
                     ],
                   ),
-            
+
                   SizedBox(height: 16),
-            
+
                   // Search bar
                   TextField(
                     controller: controller.searchC,
@@ -77,9 +78,9 @@ class AdminHomeView extends GetView<AdminHomeController> {
                       ),
                     ),
                   ),
-            
+
                   SizedBox(height: 16),
-            
+
                   // User count card
                   Container(
                     padding: EdgeInsets.all(20),
@@ -101,7 +102,7 @@ class AdminHomeView extends GetView<AdminHomeController> {
                     child: Row(
                       children: [
                         SizedBox(width: 20),
-            
+
                         // Text Content
                         Expanded(
                           child: Column(
@@ -115,26 +116,28 @@ class AdminHomeView extends GetView<AdminHomeController> {
                                 ),
                               ),
                               SizedBox(height: 4),
-                              Text(
-                                '${controller.userCount}',
-                                style: GoogleFonts.poppins(
-                                  fontSize: 36,
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColors.black,
+                              Obx(
+                                () => Text(
+                                  '${controller.users.length}',
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 36,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.black,
+                                  ),
                                 ),
                               ),
                             ],
                           ),
                         ),
-            
+
                         Image.asset("assets/pregnant.png", height: 100),
                         SizedBox(width: 70),
                       ],
                     ),
                   ),
-            
+
                   SizedBox(height: 16),
-            
+
                   // User list
                   Text(
                     'User List',
@@ -148,10 +151,11 @@ class AdminHomeView extends GetView<AdminHomeController> {
                     child: ListView.builder(
                       itemCount: controller.searchUser.length,
                       itemBuilder: (context, index) {
+                        final user = controller.searchUser[index];
                         return UserTile(
                           routeUserDetatis: () =>
-                              Get.toNamed(Routes.USER_DETAILS),
-                          user: controller.searchUser[index],
+                              controller.goToUserDetails(user),
+                          user: user,
                           onDelete: () => controller.deleteUser(index),
                         );
                       },

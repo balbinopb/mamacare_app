@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mamacare/app/constants/app_colors.dart';
 
 class InputField extends StatelessWidget {
   final String label;
@@ -41,7 +42,7 @@ class InputField extends StatelessWidget {
                   ),
                 ),
                 if (hasEditIcon)
-                  Icon(Icons.edit, size: 18, color: Colors.black),
+                  Icon(Icons.edit, size: 18, color: AppColors.black),
               ],
             ),
           ),

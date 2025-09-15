@@ -19,7 +19,7 @@ class AddUserView extends GetView<AddUserController> {
             colorScheme: const ColorScheme.light(
               primary: Colors.amber,
               onPrimary: Colors.white,
-              onSurface: Colors.black,
+              onSurface: AppColors.black,
             ),
             textButtonTheme: TextButtonThemeData(
               style: TextButton.styleFrom(foregroundColor: Colors.amber),

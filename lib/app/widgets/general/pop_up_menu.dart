@@ -44,10 +44,10 @@ class _PopUpMenuState extends State<PopUpMenu> {
                     border: Border.all(color: Colors.amber),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Text(
+                  child: Text(
                     'Detail Riwayat',
                     style: TextStyle(
-                      color: Colors.black,
+                      color: AppColors.black,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -65,7 +65,7 @@ class _PopUpMenuState extends State<PopUpMenu> {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: const Icon(Icons.more_vert),
+      icon: Icon(Icons.more_vert),
       onPressed: () => _showCustomPopup(context),
     );
   }

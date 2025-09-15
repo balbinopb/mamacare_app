@@ -24,7 +24,7 @@ class WeekCard extends StatelessWidget {
           Text(
             "Week",
             style: GoogleFonts.poppins(
-              color: isSelected ? AppColors.white : Colors.black,
+              color: isSelected ? AppColors.white : AppColors.black,
               fontSize: 12,
               fontWeight: FontWeight.w400,
             ),
@@ -32,7 +32,7 @@ class WeekCard extends StatelessWidget {
           Text(
             "$week",
             style: GoogleFonts.poppins(
-              color: isSelected ? AppColors.white : Colors.black,
+              color: isSelected ? AppColors.white : AppColors.black,
               fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
