@@ -15,6 +15,7 @@ migrate_working_dir/
 # new
 .env
 logger_debug.dart
+mock_user_data.dart
 
 # IntelliJ related
 *.iml

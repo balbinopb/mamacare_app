@@ -23,36 +23,16 @@ class LoginView extends GetView<LoginController> {
             ),
             child: Column(
               children: [
-                LoginHeader(first: "Welcome to \nMamacare", second: "Please login to continue",),
+                LoginHeader(
+                  first: "Welcome to \nMamacare",
+                  second: "Please login to continue",
+                ),
                 Obx(
                   () => CustomTextfield(
                     title: "Nomor HP",
-                    placeholder: "Number phone",
-                    controller: controller.emailController,
-                    errorText: controller.emailError.value,
-                  ),
-                ),
-                Obx(
-                  () => CustomTextfield(
-                    title: "Password",
-                    placeholder: "Password",
-                    isPassword: true,
-                    controller: controller.passwordController,
-                    errorText: controller.passwordError.value,
-                  ),
-                ),
-                SizedBox(height: 30),
-                TextButton(
-                  onPressed: () {
-                    // Get.toNamed(AppRoutes.resetPassword);
-                  },
-                  child: Text(
-                    "Forgot Password?",
-                    style: GoogleFonts.poppins(
-                      color: AppColors.yellow1,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                    ),
+                    placeholder: "Phone number",
+                    controller: controller.phoneController,
+                    errorText: controller.phoneError.value,
                   ),
                 ),
                 SizedBox(height: 30),
@@ -61,7 +41,7 @@ class LoginView extends GetView<LoginController> {
                   child: SizedBox(
                     width: double.infinity,
                     child: FilledButton(
-                      onPressed: controller.login,
+                      onPressed: controller.sendOtp,
                       style: FilledButton.styleFrom(
                         backgroundColor: AppColors.yellow1,
                         padding: EdgeInsets.symmetric(vertical: 14),
@@ -73,10 +53,14 @@ class LoginView extends GetView<LoginController> {
                           borderRadius: BorderRadius.circular(24),
                         ),
                       ),
-                      child: Text("Login", style: GoogleFonts.poppins(color: Colors.black)),
+                      child: Text(
+                        "Send OTP",
+                        style: GoogleFonts.poppins(color: Colors.black),
+                      ),
                     ),
                   ),
                 ),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
