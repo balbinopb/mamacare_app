@@ -14,6 +14,7 @@ migrate_working_dir/
 
 # new
 .env
+logger_debug.dart
 
 # IntelliJ related
 *.iml
