@@ -63,8 +63,7 @@ class AddUserController extends GetxController {
         "estimatedBirthDate": estimatedBirthDateController.text.trim(),
         "weight": double.tryParse(weightController.text.trim()) ?? 0.0,
         "height": double.tryParse(heightController.text.trim()) ?? 0.0,
-        "upperArmCircumference":
-            double.tryParse(upperArmCircumferenceController.text.trim()) ?? 0.0,
+        "upperArmCircumference": double.tryParse(upperArmCircumferenceController.text.trim()) ?? 0.0,
         "createdAt": FieldValue.serverTimestamp(),
       });
 

@@ -14,7 +14,7 @@ class UserHistoryView extends GetView<UserHistoryController> {
       appBar: AppBar(
         title: Text(
           'Preeclampsia History',
-          style: GoogleFonts.poppins(color: Colors.black),
+          style: GoogleFonts.poppins(color: AppColors.black),
         ),
         backgroundColor: AppColors.white,
         surfaceTintColor: Colors.transparent,
@@ -49,7 +49,7 @@ class UserHistoryView extends GetView<UserHistoryController> {
                     //           label: Text(
                     //             filter,
                     //             style: GoogleFonts.poppins(
-                    //               color: isSelected ? Colors.white : Colors.black,
+                    //               color: isSelected ? Colors.white : AppColors.black,
                     //               fontWeight: FontWeight.w600,
                     //             ),
                     //           ),

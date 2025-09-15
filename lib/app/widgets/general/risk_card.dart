@@ -16,7 +16,7 @@ class RiskCard extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [AppColors.yellow1, Color(0xFFFFB00B)],
+          colors: [AppColors.yellow1, AppColors.yellow2],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -36,14 +36,14 @@ class RiskCard extends StatelessWidget {
                   style: GoogleFonts.poppins(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
-                    color: Colors.black,
+                    color: AppColors.black,
                   ),
                 ),
                 Text(
                   "High Risk",
                   style: GoogleFonts.poppins(
                     fontSize: 32,
-                    color: Colors.black,
+                    color: AppColors.black,
                     fontWeight: FontWeight.w600,
                   ),
                 ),

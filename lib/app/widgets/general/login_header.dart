@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mamacare/app/constants/app_colors.dart';
 import 'package:mamacare/app/widgets/general/header_clipper.dart';
 
 class LoginHeader extends StatelessWidget {
@@ -16,7 +17,7 @@ class LoginHeader extends StatelessWidget {
         width: double.infinity,
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFFFBCC25), Color(0xFFFFB00B)],
+            colors: [AppColors.yellow1, AppColors.yellow2],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -31,7 +32,7 @@ class LoginHeader extends StatelessWidget {
                 style: GoogleFonts.poppins(
                   fontSize: 36,
                   fontWeight: FontWeight.w600,
-                  color: Colors.black,
+                  color: AppColors.black,
                 ),
               ),
               SizedBox(height: 12),

@@ -117,13 +117,13 @@ class VerifyOtpView extends GetView<VerifyOtpController> {
                             height: 20,
                             width: 20,
                             child: CircularProgressIndicator(
-                              color: Colors.black,
+                              color: AppColors.black,
                               strokeWidth: 2,
                             ),
                           )
                         : Text(
                             "Verify OTP",
-                            style: GoogleFonts.poppins(color: Colors.black),
+                            style: GoogleFonts.poppins(color: AppColors.black),
                           ),
                   );
                 }),
