@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mamacare/app/constants/app_colors.dart';
-import 'package:mamacare/app/data/models/user_model/user_model.dart';
+import 'package:mamacare/app/data/models/user_model.dart';
 import 'package:mamacare/app/widgets/general/indicator_card.dart';
 import 'package:mamacare/app/widgets/general/map_rot_chart.dart';
 import 'package:mamacare/app/widgets/general/pop_up_menu.dart';

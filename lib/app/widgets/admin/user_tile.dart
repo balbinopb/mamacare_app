@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mamacare/app/constants/app_colors.dart';
-import 'package:mamacare/app/data/models/user_model/user_model.dart';
+import 'package:mamacare/app/data/models/user_model.dart';
 
 class UserTile extends StatelessWidget {
   final UserModel user;
