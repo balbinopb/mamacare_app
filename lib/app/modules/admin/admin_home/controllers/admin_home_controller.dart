@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:mamacare/app/data/models/user_model/user_model.dart';
+import 'package:mamacare/app/data/models/user_model.dart';
 import 'package:mamacare/app/routes/app_pages.dart';
 
 class AdminHomeController extends GetxController {

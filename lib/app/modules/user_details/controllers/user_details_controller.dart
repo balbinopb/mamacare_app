@@ -13,8 +13,6 @@ import 'package:mamacare/logger_debug.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class UserDetailsController extends GetxController {
-  final name = "Steffanyy Martin".obs;
-
 
   var currentTime = ''.obs;
   
