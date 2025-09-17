@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mamacare/app/constants/app_colors.dart';
 import 'package:mamacare/app/routes/app_pages.dart';
+import 'package:mamacare/app/widgets/general/confirm_dialog.dart';
 import 'package:mamacare/app/widgets/general/menu_tile.dart';
 import '../controllers/admin_setting_controller.dart';
 
@@ -23,7 +23,10 @@ class AdminSettingView extends GetView<AdminSettingController> {
                   // SizedBox(width: 10),
                   Text(
                     'Setting',
-                    style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w600),
+                    style: GoogleFonts.poppins(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ],
               ),
@@ -73,60 +76,11 @@ class AdminSettingView extends GetView<AdminSettingController> {
                 title: 'Logout',
                 onTap: () {
                   Get.dialog(
-                    AlertDialog(
-                      backgroundColor: AppColors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      contentPadding: EdgeInsets.all(24),
-                      content: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.logout,
-                            size: 48,
-                            color: AppColors.yellow1,
-                          ),
-                          SizedBox(height: 16),
-                          Text(
-                            "Logout Confirmation",
-                            style: GoogleFonts.poppins(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                          SizedBox(height: 12),
-                          Text(
-                            "You will be logged out of this account.Continue logging out?",
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.poppins(fontSize: 14),
-                          ),
-                          SizedBox(height: 16),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              TextButton(
-                                onPressed: () => Get.back(),
-                                child: Text(
-                                  "Cancel",
-                                  style: GoogleFonts.poppins(color: AppColors.yellow1),
-                                ),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  // Get.back();
-                                  controller.logout();
-                                },
-                                child: Text(
-                                  "OK",
-                                  style: GoogleFonts.poppins(color: AppColors.yellow1),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                    ConfirmDialog(
+                      title: "Logout Confirmation",
+                      message:
+                          "You will be logged out of this account. Continue logging out?",
+                      onConfirm: () => controller.logout(),
                     ),
                   );
                 },

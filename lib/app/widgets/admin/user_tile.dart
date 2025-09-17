@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mamacare/app/constants/app_colors.dart';
 import 'package:mamacare/app/data/models/user_model.dart';
+import 'package:mamacare/app/widgets/general/confirm_dialog.dart';
 
 class UserTile extends StatelessWidget {
   final UserModel user;
-  final VoidCallback onDelete;
-  final VoidCallback routeUserDetatis;
+  final VoidCallback onDeleteUser;
+  final VoidCallback onNavigateToUserDetails;
 
   const UserTile({
     super.key,
     required this.user,
-    required this.onDelete,
-    required this.routeUserDetatis,
+    required this.onDeleteUser,
+    required this.onNavigateToUserDetails,
   });
 
   @override
@@ -22,7 +24,7 @@ class UserTile extends StatelessWidget {
         height: 101,
         child: ListTile(
           leading: GestureDetector(
-            onTap: routeUserDetatis,
+            onTap: onNavigateToUserDetails,
             child: Icon(Icons.person, color: Colors.yellow.shade800, size: 32),
           ),
           title: Column(
@@ -35,7 +37,15 @@ class UserTile extends StatelessWidget {
           ),
           trailing: IconButton(
             icon: Icon(Icons.delete_outline),
-            onPressed: onDelete,
+            onPressed: () {
+              Get.dialog(
+                ConfirmDialog(
+                  title: "Delete Item?",
+                  message:"Are you sure you want to delete this User? This action cannot be undone.",
+                  onConfirm: () => onDeleteUser,
+                ),
+              );
+            },
           ),
         ),
       ),
