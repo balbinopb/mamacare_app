@@ -153,10 +153,10 @@ class AdminHomeView extends GetView<AdminHomeController> {
                       itemBuilder: (context, index) {
                         final user = controller.searchUser[index];
                         return UserTile(
-                          routeUserDetatis: () =>
+                          onNavigateToUserDetails: () =>
                               controller.goToUserDetails(user),
                           user: user,
-                          onDelete: () => controller.deleteUser(index),
+                          onDeleteUser: () => controller.deleteUser(index),
                         );
                       },
                     ),

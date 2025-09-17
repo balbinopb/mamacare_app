@@ -10,7 +10,7 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(
     GetMaterialApp(
-      title: "mamacare",
+      title: "mamacare app",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(scaffoldBackgroundColor: AppColors.white),
       initialRoute: AppPages.INITIAL,
