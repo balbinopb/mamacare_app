@@ -19,7 +19,13 @@ class VerifyOtpController extends GetxController {
       Get.snackbar("Success", "Phone verified successfully!");
       Get.offAllNamed(Routes.ADMIN_NAV_BAR);
     } catch (e) {
-      Get.snackbar("Error", e.toString(), backgroundColor: Colors.red);
+      // Get.snackbar("Error", e.toString(), backgroundColor: Colors.red);
+      Get.snackbar(
+      "Oops!",
+      "Verifikasi OTP gagal. Silakan coba lagi.",
+      backgroundColor: Colors.red,
+      colorText: Colors.white,
+    );
     }
   }
 

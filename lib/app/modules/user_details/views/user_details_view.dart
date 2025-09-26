@@ -3,26 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mamacare/app/constants/app_colors.dart';
-import 'package:mamacare/app/data/models/user_model.dart';
 import 'package:mamacare/app/widgets/general/indicator_card.dart';
 import 'package:mamacare/app/widgets/general/map_rot_chart.dart';
 import 'package:mamacare/app/widgets/general/pop_up_menu.dart';
 import 'package:mamacare/app/widgets/general/risk_card.dart';
 import 'package:mamacare/app/widgets/general/week_card.dart';
-import 'package:mamacare/logger_debug.dart';
-import 'package:permission_handler/permission_handler.dart';
+// import 'package:permission_handler/permission_handler.dart';
 import '../controllers/user_details_controller.dart';
 
 class UserDetailsView extends GetView<UserDetailsController> {
   const UserDetailsView({super.key});
   @override
   Widget build(BuildContext context) {
-    // Retrieve the argument
-    final UserModel user = Get.arguments as UserModel;
-
-    // Convert back to UserModel
-    // final user = UserModel.fromMap(userMap['id'], userMap);
-
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -48,13 +40,18 @@ class UserDetailsView extends GetView<UserDetailsController> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          "Hai, ${user.name}",
-                          style: GoogleFonts.poppins(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
+                        Obx(() {
+                          final userMap = controller.userData.value;
+                          final name = userMap?['name'] ?? 'User'; 
+                          return Text(
+                            "Hai, $name",
+                            style: GoogleFonts.poppins(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          );
+                        }),
+
                         SizedBox(height: 4),
                         Obx(
                           () => Text(
@@ -148,69 +145,11 @@ class UserDetailsView extends GetView<UserDetailsController> {
       ),
 
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          try {
-            // Minta permission runtime sebelum akses Bluetooth
-            final status = await Permission.bluetoothConnect.request();
-            if (!status.isGranted) {
-              Get.snackbar("Permission", "Bluetooth permission ditolak");
-              return;
-            }
-
-            // Ambil daftar device yang sudah paired
-            var devices = await controller.getPairedDevices();
-
-            if (devices.isEmpty) {
-              Get.snackbar("Info", "Tidak ada device yang sudah dipasangkan");
-              return;
-            }
-
-            //  Tampilkan bottom sheet list device
-            Get.bottomSheet(
-              Container(
-                padding: EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      "Pilih Device",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 12),
-                    ...devices.map(
-                      (device) => ListTile(
-                        title: Text(device.name ?? "Unknown"),
-                        subtitle: Text(device.address),
-                        onTap: () {
-                          Get.back(); // Tutup bottom sheet
-                          controller.connectAndSend(
-                            device,
-                          ); // Connect + kirim data
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          } catch (e) {
-            Get.snackbar("Error", "Terjadi error: $e");
-            logger.d("error : $e");
-          }
+        backgroundColor: Colors.white,
+        onPressed: () {
+          // logger.d("check ${user.id}");
         },
-        backgroundColor: AppColors.yellow1,
-        child: Obx(
-          () => controller.isConnecting.value
-              ? CircularProgressIndicator(color: Colors.black)
-              : Icon(Icons.send, color: Colors.black),
-        ),
+        child: Icon(Icons.send),
       ),
     );
   }
