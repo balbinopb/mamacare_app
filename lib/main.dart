@@ -5,7 +5,7 @@ import 'package:mamacare/app/constants/app_colors.dart';
 import 'package:mamacare/firebase_options.dart';
 import 'app/routes/app_pages.dart';
 
-void main() async {
+void main() async {  
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(

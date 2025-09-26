@@ -16,7 +16,7 @@ class AdminHomeController extends GetxController {
   final users = <UserModel>[].obs;
   final searchUser = <UserModel>[].obs;
 
-  /// Current time 
+  /// Current time
   var currentTime = ''.obs;
   Timer? _timer;
 
@@ -40,13 +40,13 @@ class AdminHomeController extends GetxController {
           .collection('users')
           .snapshots()
           .listen((snapshot) {
-        final fetchedUsers = snapshot.docs
-            .map((doc) => UserModel.fromMap(doc.id, doc.data()))
-            .toList();
+            final fetchedUsers = snapshot.docs
+                .map((doc) => UserModel.fromMap(doc.id, doc.data()))
+                .toList();
 
-        users.assignAll(fetchedUsers);
-        searchUser.assignAll(fetchedUsers);
-      });
+            users.assignAll(fetchedUsers);
+            searchUser.assignAll(fetchedUsers);
+          });
     }
   }
 
@@ -82,9 +82,7 @@ class AdminHomeController extends GetxController {
       searchUser.assignAll(users);
     } else {
       searchUser.assignAll(
-        users.where(
-          (user) => user.name.toLowerCase().contains(lowerKeyword),
-        ),
+        users.where((user) => user.name.toLowerCase().contains(lowerKeyword)),
       );
     }
   }
@@ -110,7 +108,14 @@ class AdminHomeController extends GetxController {
 
   /// Navigate to details page
   void goToUserDetails(UserModel user) {
-    Get.toNamed(Routes.USER_DETAILS, arguments: user);
+    // Get.toNamed(Routes.USER_DETAILS, arguments: user);
+    final adminId = FirebaseAuth.instance.currentUser?.uid;
+    if (adminId != null) {
+      Get.toNamed(
+        Routes.USER_DETAILS,
+        arguments: {'adminId': adminId, 'user': user},
+      );
+    }
   }
 
   @override

@@ -10,7 +10,7 @@ plugins {
 
 android {
     namespace = "com.example.mamacare"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 36 //flutter.compileSdkVersion
     ndkVersion = "29.0.13113456" //flutter.ndkVersion
 
     compileOptions {
@@ -27,8 +27,8 @@ android {
         applicationId = "com.example.mamacare"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = 23  //flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
+        minSdk = 24 //flutter.minSdkVersion //flutter.minSdkVersion  //flutter.minSdkVersion
+        targetSdk = 34 //flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
