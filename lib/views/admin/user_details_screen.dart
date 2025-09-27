@@ -137,6 +137,6 @@ class UserDetailsScreen extends GetView<HomeController>{
           ),
         ),
       ),
-    );;
+    );
   }
 }

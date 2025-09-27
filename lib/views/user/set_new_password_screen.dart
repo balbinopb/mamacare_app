@@ -46,7 +46,7 @@ class SetNewPasswordScreen extends StatelessWidget {
                 child: SizedBox(
                   width: double.infinity,
                   child: FilledButton(
-                    onPressed: controller.login,
+                    onPressed: (){},
                     style: FilledButton.styleFrom(
                       backgroundColor: Color(0xFFFBCC25),
                       padding: EdgeInsets.symmetric(vertical: 14),

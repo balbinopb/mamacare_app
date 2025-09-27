@@ -112,7 +112,12 @@ class LoginScreen extends StatelessWidget {
                 child: SizedBox(
                   width: double.infinity,
                   child: FilledButton(
-                    onPressed: controller.login,
+                    onPressed: () {
+                      controller.login(
+                        controller.emailController.text.trim(),
+                        controller.passwordController.text.trim(),
+                      );
+                    },
                     style: FilledButton.styleFrom(
                       backgroundColor: Color(0xFFFBCC25),
                       padding: EdgeInsets.symmetric(vertical: 14),

@@ -4,8 +4,13 @@ import 'package:get/get.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:mamacare/routes/app_pages.dart';
 import 'package:mamacare/routes/app_routes.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 void main()async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+);
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await Future.delayed(const Duration(milliseconds: 50));
@@ -34,3 +39,19 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+// class MyApp extends StatelessWidget {
+//   const MyApp({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'mamacare',
+//       theme: ThemeData(
+//         scaffoldBackgroundColor:Colors.white
+//       ),
+//       home: RiwayatTable(),
+//       // initialBinding: GloballBindins(),
+//     );
+//   }
+// }

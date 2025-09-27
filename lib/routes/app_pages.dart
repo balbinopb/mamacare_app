@@ -12,9 +12,9 @@ import 'package:mamacare/views/admin/admin_about_screen.dart';
 import 'package:mamacare/views/admin/admin_home_screen.dart';
 import 'package:mamacare/views/admin/admin_setting_screen.dart';
 import 'package:mamacare/views/admin/user_details_screen.dart';
-import 'package:mamacare/views/details_screen.dart';
 import 'package:mamacare/views/login_screen.dart';
 import 'package:mamacare/views/user/about_screen.dart';
+import 'package:mamacare/views/user/history_screen.dart';
 import 'package:mamacare/views/user/profile_screen.dart';
 import 'package:mamacare/views/user/reset_password_screen_screen.dart';
 import 'package:mamacare/views/user/set_new_password_screen.dart';
@@ -69,11 +69,17 @@ class AppPages {
       page: () => AboutScreen(),
       binding: AboutBinding(),
     ),
+
     GetPage(
-      name: AppRoutes.details,
-      page: () => DetailsScreen(),
-      // binding: AboutBinding(),
+      name: AppRoutes.userHistory,
+      page: () => HistoryScreen(),
+      binding: AboutBinding(),
     ),
+    // GetPage(
+    //   name: AppRoutes.details,
+    //   page: () => DetailsScreen(),
+    //   // binding: AboutBinding(),
+    // ),
 
     // ----------ADMIN ROUTES-----------
     GetPage(

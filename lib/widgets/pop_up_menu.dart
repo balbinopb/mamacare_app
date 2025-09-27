@@ -32,7 +32,7 @@ class _PopUpMenuState extends State<PopUpMenu> {
               child: GestureDetector(
                 onTap: () {
                   _popupEntry?.remove();
-                  Get.toNamed(AppRoutes.details);
+                  Get.toNamed(AppRoutes.userHistory);
                 },
                 child: Container(
                   width: 130,

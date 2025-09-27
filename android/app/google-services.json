@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "221120354246",
+    "project_id": "preeclampsia-monitor-3dead",
+    "storage_bucket": "preeclampsia-monitor-3dead.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:221120354246:android:2563034a853af180a844c7",
+        "android_client_info": {
+          "package_name": "com.example.mamacare"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOS7KXX29jXtqv5RFQztbFQ797Zf2k28E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:221120354246:android:3f0f24b19df3de7da844c7",
+        "android_client_info": {
+          "package_name": "com.example.todo_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOS7KXX29jXtqv5RFQztbFQ797Zf2k28E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -4,7 +4,7 @@ import 'package:mamacare/controllers/user/history_controller.dart';
 import 'package:mamacare/widgets/table_history.dart';
 
 class HistoryScreen extends GetView<HistoryController> {
-  const HistoryScreen({super.key});
+   const HistoryScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
