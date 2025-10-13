@@ -8,13 +8,16 @@ import 'package:mamacare/app/widgets/general/map_rot_chart.dart';
 import 'package:mamacare/app/widgets/general/pop_up_menu.dart';
 import 'package:mamacare/app/widgets/general/risk_card.dart';
 import 'package:mamacare/app/widgets/general/week_card.dart';
-// import 'package:permission_handler/permission_handler.dart';
 import '../controllers/user_details_controller.dart';
 
 class UserDetailsView extends GetView<UserDetailsController> {
   const UserDetailsView({super.key});
   @override
   Widget build(BuildContext context) {
+    // get arguments
+    final args = Get.arguments as Map<String, dynamic>;
+    final user = args['user'];
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -37,32 +40,31 @@ class UserDetailsView extends GetView<UserDetailsController> {
                       ),
                     ),
                     SizedBox(width: 12),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Obx(() {
-                          final userMap = controller.userData.value;
-                          final name = userMap?['name'] ?? 'User'; 
-                          return Text(
-                            "Hai, $name",
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Hai, ${user.name}",
                             style: GoogleFonts.poppins(
                               fontSize: 24,
                               fontWeight: FontWeight.w500,
                             ),
-                          );
-                        }),
-
-                        SizedBox(height: 4),
-                        Obx(
-                          () => Text(
-                            controller.currentTime.value,
-                            style: GoogleFonts.poppins(
-                              fontSize: 14,
-                              color: Colors.grey[600],
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
+                          SizedBox(height: 4),
+                          Obx(
+                            () => Text(
+                              controller.currentTime.value,
+                              style: GoogleFonts.poppins(
+                                fontSize: 14,
+                                color: Colors.grey[600],
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ],
                 ),
