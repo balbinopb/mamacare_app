@@ -31,7 +31,7 @@ class UserDetailsView extends GetView<UserDetailsController> {
     Get.bottomSheet(
       Container(
         padding: const EdgeInsets.all(16),
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
         ),
@@ -39,14 +39,14 @@ class UserDetailsView extends GetView<UserDetailsController> {
           () => Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text(
+              Text(
                 "Select Bluetooth Device",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 12),
               for (var device in controller.availableDevices)
                 ListTile(
-                  leading: const Icon(Icons.bluetooth, color: Colors.blue),
+                  leading: Icon(Icons.bluetooth, color: Colors.blue),
                   title: Text(device['name'] ?? 'Unknown'),
                   subtitle: Text(device['address'] ?? ''),
                   onTap: () async {
@@ -55,7 +55,7 @@ class UserDetailsView extends GetView<UserDetailsController> {
                   },
                 ),
               if (controller.isConnecting.value)
-                const Padding(
+                Padding(
                   padding: EdgeInsets.all(8.0),
                   child: CircularProgressIndicator(),
                 ),

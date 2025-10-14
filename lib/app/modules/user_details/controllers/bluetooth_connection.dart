@@ -11,7 +11,7 @@ class BluetoothConnection extends GetxController {
 
   static const platform = MethodChannel('com.example.mamacare/bluetooth');
 
-  //Get paired devices 
+  //Get paired devices
   Future<void> getPairedDevices() async {
     try {
       final devices = await platform.invokeMethod('getPairedDevices');
@@ -25,7 +25,9 @@ class BluetoothConnection extends GetxController {
   Future<void> scanDevices() async {
     try {
       availableDevices.clear();
-      final result = await BluetoothService.platform.invokeMethod('scanDevices');
+      final result = await BluetoothService.platform.invokeMethod(
+        'scanDevices',
+      );
       for (var device in result) {
         availableDevices.add({
           'name': device['name'],
@@ -71,5 +73,4 @@ class BluetoothConnection extends GetxController {
       Get.snackbar("Error", "Gagal putuskan koneksi: ${e.message}");
     }
   }
-  
 }
