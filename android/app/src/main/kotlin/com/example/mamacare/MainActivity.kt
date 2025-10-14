@@ -1,11 +1,3 @@
-// package com.example.mamacare
-
-// import io.flutter.embedding.android.FlutterActivity
-
-// class MainActivity : FlutterActivity()
-
-
-
 package com.example.mamacare
 
 import android.bluetooth.BluetoothAdapter
@@ -30,6 +22,27 @@ class MainActivity : FlutterActivity() {
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL)
             .setMethodCallHandler { call, result ->
                 when (call.method) {
+
+                    // List paired devices
+                    "getPairedDevices" -> {
+                        val adapter = BluetoothAdapter.getDefaultAdapter()
+                        if (adapter == null) {
+                            result.error("UNAVAILABLE", "Bluetooth not supported on this device", null)
+                            return@setMethodCallHandler
+                        }
+
+                        val bondedDevices: Set<BluetoothDevice>? = adapter.bondedDevices
+                        val devicesList = bondedDevices?.map { device ->
+                            mapOf(
+                                "name" to device.name,
+                                "address" to device.address
+                            )
+                        } ?: emptyList<Map<String, String>>()
+
+                        result.success(devicesList)
+                    }
+
+                    // Connect
                     "connect" -> {
                         val address = call.argument<String>("address")
                         if (address != null) {
@@ -40,15 +53,26 @@ class MainActivity : FlutterActivity() {
                         }
                     }
 
+                    // Send data
                     "sendData" -> {
                         val message = call.argument<String>("message")
                         message?.let { sendData(it) }
                         result.success(null)
                     }
 
+                    // Disconnect
                     "disconnect" -> {
                         disconnect()
                         result.success(null)
+                    }
+                    
+                    // scanDevices
+                    "scanDevices" -> {
+                        val bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
+                        val devices = bluetoothAdapter.bondedDevices.map {
+                            mapOf("name" to it.name, "address" to it.address)
+                        }
+                        result.success(devices)
                     }
 
                     else -> result.notImplemented()

@@ -8,12 +8,68 @@ import 'package:mamacare/app/widgets/general/map_rot_chart.dart';
 import 'package:mamacare/app/widgets/general/pop_up_menu.dart';
 import 'package:mamacare/app/widgets/general/risk_card.dart';
 import 'package:mamacare/app/widgets/general/week_card.dart';
+import 'package:mamacare/logger_debug.dart';
+import '../controllers/bluetooth_connection.dart';
 import '../controllers/user_details_controller.dart';
 
 class UserDetailsView extends GetView<UserDetailsController> {
   const UserDetailsView({super.key});
+
+  void _onFabPressed(
+    BuildContext context,
+    BluetoothConnection controller,
+  ) async {
+    logger.d("FAB pressed — scanning nearby Bluetooth devices...");
+
+    await controller.scanDevices();
+
+    if (controller.availableDevices.isEmpty) {
+      Get.snackbar("Bluetooth", "No nearby devices found");
+      return;
+    }
+
+    Get.bottomSheet(
+      Container(
+        padding: const EdgeInsets.all(16),
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+        child: Obx(
+          () => Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                "Select Bluetooth Device",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 12),
+              for (var device in controller.availableDevices)
+                ListTile(
+                  leading: const Icon(Icons.bluetooth, color: Colors.blue),
+                  title: Text(device['name'] ?? 'Unknown'),
+                  subtitle: Text(device['address'] ?? ''),
+                  onTap: () async {
+                    Get.back();
+                    await controller.connectToDevice(device['address']!);
+                  },
+                ),
+              if (controller.isConnecting.value)
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: CircularProgressIndicator(),
+                ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    // Inject
+    final bluetoothC = Get.put(BluetoothConnection());
     // get arguments
     final args = Get.arguments as Map<String, dynamic>;
     final user = args['user'];
@@ -146,12 +202,20 @@ class UserDetailsView extends GetView<UserDetailsController> {
         ),
       ),
 
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.white,
-        onPressed: () {
-          // logger.d("check ${user.id}");
-        },
-        child: Icon(Icons.send),
+      floatingActionButton: Obx(
+        () => FloatingActionButton(
+          backgroundColor: Colors.white,
+          onPressed: () {
+            print("FAB CLICKED");
+            _onFabPressed(context, bluetoothC);
+          },
+          child: Icon(
+            bluetoothC.isConnecting.value
+                ? Icons.bluetooth_disabled
+                : Icons.bluetooth_searching,
+            color: Colors.blueAccent,
+          ),
+        ),
       ),
     );
   }
