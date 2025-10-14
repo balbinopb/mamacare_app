@@ -4,6 +4,9 @@
     <!-- Permission for accessing img in gallery -->
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32"/>
+    
+    <!-- internet permission -->
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <!-- Bluetooth permissions -->
     <uses-permission android:name="android.permission.BLUETOOTH" />

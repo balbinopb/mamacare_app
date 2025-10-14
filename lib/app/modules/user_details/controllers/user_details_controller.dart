@@ -9,10 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:mamacare/app/constants/app_colors.dart';
 import 'package:mamacare/app/data/models/line_chart_model.dart';
 import 'package:mamacare/app/data/models/risk_card_model.dart';
-// import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:mamacare/app/data/models/user_model.dart';
-// import 'package:mamacare/logger_debug.dart';
-// import 'package:permission_handler/permission_handler.dart';
 
 class UserDetailsController extends GetxController {
   var currentTime = ''.obs;
@@ -75,8 +72,6 @@ class UserDetailsController extends GetxController {
   }
 
 
-
-
   // load userdata
   Future<void> loadUserData(String adminId, String userId) async {
     final data = await fetchUserData(adminId, userId);
@@ -125,55 +120,3 @@ class UserDetailsController extends GetxController {
   ).obs;
 
 }
-
-//   final isConnecting = false.obs;
-
-//   Future<List<BluetoothDevice>> getPairedDevices() async {
-//     // Request runtime permission
-//     if (await Permission.bluetoothConnect.request().isDenied) {
-//       Get.snackbar("Permission", "Bluetooth permission ditolak");
-//       logger.d("Permission, Bluetooth permission ditolak");
-//       return [];
-//     }
-
-//     try {
-//       return await FlutterBluetoothSerial.instance.getBondedDevices();
-//     } catch (e) {
-//       Get.snackbar("Error", "Gagal ambil device: $e");
-//       logger.d("erro : $e");
-//       return [];
-//     }
-//   }
-
-//   /// Kirim data ke device terpilih
-//   Future<void> connectAndSend(BluetoothDevice device) async {
-//     try {
-//       isConnecting.value = true;
-//       Get.snackbar("Connecting", "Menyambungkan ke ${device.name}...");
-
-//       BluetoothConnection connection = await BluetoothConnection.toAddress(
-//         device.address,
-//       );
-
-//       sendData(connection);
-
-//       connection.finish();
-//     } catch (e) {
-//       Get.snackbar("Error", "Tidak bisa konek ke ${device.name}: $e");
-//     } finally {
-//       isConnecting.value = false;
-//     }
-//   }
-
-//   void sendData(BluetoothConnection connection) {
-//     try {
-//       String jsonData =
-//           '{"NAME":"BtJZWhnksOlqSK5YtDyO","ADMIN":"wDTXtckx9bNIuf2QKYNyn2W4ZZk1"}\n'; //demo
-//       connection.output.add(utf8.encode(jsonData));
-//       connection.output.allSent;
-//       Get.snackbar("Sukses", "Data berhasil dikirim");
-//     } catch (e) {
-//       Get.snackbar("Error", "Gagal kirim data: $e");
-//     }
-//   }
-// }
