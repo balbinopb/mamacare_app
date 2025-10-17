@@ -9,67 +9,47 @@ import 'package:mamacare/app/widgets/general/pop_up_menu.dart';
 import 'package:mamacare/app/widgets/general/risk_card.dart';
 import 'package:mamacare/app/widgets/general/week_card.dart';
 import 'package:mamacare/logger_debug.dart';
-import '../controllers/bluetooth_connection.dart';
+import '../controllers/bluetooth_controller.dart';
 import '../controllers/user_details_controller.dart';
 
 class UserDetailsView extends GetView<UserDetailsController> {
   const UserDetailsView({super.key});
 
-  void _onFabPressed(
-    BuildContext context,
-    BluetoothConnection controller,
-  ) async {
-    logger.d("FAB pressed — scanning nearby Bluetooth devices...");
-
-    await controller.scanDevices();
-
-    if (controller.availableDevices.isEmpty) {
-      Get.snackbar("Bluetooth", "No nearby devices found");
-      return;
-    }
-
-    Get.bottomSheet(
-      Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-        ),
-        child: Obx(
-          () => Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                "Select Bluetooth Device",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 12),
-              for (var device in controller.availableDevices)
-                ListTile(
-                  leading: Icon(Icons.bluetooth, color: Colors.blue),
-                  title: Text(device['name'] ?? 'Unknown'),
-                  subtitle: Text(device['address'] ?? ''),
-                  onTap: () async {
-                    Get.back();
-                    await controller.connectToDevice(device['address']!);
-                  },
-                ),
-              if (controller.isConnecting.value)
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: CircularProgressIndicator(),
-                ),
-            ],
-          ),
-        ),
-      ),
+  void _showConnectDialog(
+    String name,
+    String address,
+    BluetoothController bluetoothC,
+  ) {
+    Get.defaultDialog(
+      title: "Connect to $name?",
+      middleText: "Would you like to connect to this device?",
+      textConfirm: "Connect",
+      textCancel: "Cancel",
+      confirmTextColor: Colors.white,
+      onConfirm: () async {
+        Get.back();
+        await bluetoothC.connect(address);
+        if (bluetoothC.isConnected.value) {
+          Get.snackbar(
+            "Bluetooth",
+            "Connected to $name",
+            snackPosition: SnackPosition.BOTTOM,
+          );
+        } else {
+          Get.snackbar(
+            "Bluetooth",
+            "Failed to connect",
+            snackPosition: SnackPosition.BOTTOM,
+          );
+        }
+      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
     // Inject
-    final bluetoothC = Get.put(BluetoothConnection());
+    final bluetoothC = Get.put(BluetoothController());
     // get arguments
     final args = Get.arguments as Map<String, dynamic>;
     final user = args['user'];
@@ -205,13 +185,50 @@ class UserDetailsView extends GetView<UserDetailsController> {
       floatingActionButton: Obx(
         () => FloatingActionButton(
           backgroundColor: Colors.white,
-          onPressed: () {
-            print("FAB CLICKED");
-            _onFabPressed(context, bluetoothC);
+          onPressed: () async {
+            await bluetoothC.scanDevices();
+
+            if (bluetoothC.devices.isEmpty) {
+              Get.snackbar("Bluetooth", "No devices found");
+              return;
+            }
+
+            // Show dialog with device list
+            Get.defaultDialog(
+              title: "Select Bluetooth Device",
+              content: Obx(
+                () => bluetoothC.isScanning.value
+                    ? const CircularProgressIndicator()
+                    : SizedBox(
+                        width: double.maxFinite,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: bluetoothC.devices.map((d) {
+                            return ListTile(
+                              leading: const Icon(
+                                Icons.bluetooth,
+                                color: Colors.blueAccent,
+                              ),
+                              title: Text(d['name'] ?? 'Unknown'),
+                              subtitle: Text(d['address'] ?? ''),
+                              onTap: () {
+                                Get.back(); // close dialog
+                                _showConnectDialog(
+                                  d['name'],
+                                  d['address'],
+                                  bluetoothC,
+                                );
+                              },
+                            );
+                          }).toList(),
+                        ),
+                      ),
+              ),
+            );
           },
           child: Icon(
-            bluetoothC.isConnecting.value
-                ? Icons.bluetooth_disabled
+            bluetoothC.isConnected.value
+                ? Icons.bluetooth_connected
                 : Icons.bluetooth_searching,
             color: Colors.blueAccent,
           ),
