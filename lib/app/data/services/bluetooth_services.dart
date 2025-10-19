@@ -1,7 +1,7 @@
 
 
 import 'package:flutter/services.dart';
-import 'package:mamacare/logger_debug.dart';
+import 'package:get/get.dart';
 
 class BluetoothService {
 
@@ -22,7 +22,7 @@ class BluetoothService {
     try {
       await platform.invokeMethod('sendData', {'message': message});
     } on PlatformException catch (e) {
-      logger.d("ERROR : $e");
+      Get.snackbar("Error", "$e");
     }
   }
 

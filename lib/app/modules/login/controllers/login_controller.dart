@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:mamacare/app/routes/app_pages.dart';
-import 'package:mamacare/logger_debug.dart';
 
 class LoginController extends GetxController {
   final emailController = TextEditingController();
@@ -28,7 +27,6 @@ class LoginController extends GetxController {
   Future<void> sendOtp() async {
     String phone = phoneController.text.trim();
 
-    logger.d(" get $phone");
 
     if (phone.isEmpty) {
       phoneError.value = "Phone number is required";

@@ -8,7 +8,6 @@ import 'package:mamacare/app/widgets/general/map_rot_chart.dart';
 import 'package:mamacare/app/widgets/general/pop_up_menu.dart';
 import 'package:mamacare/app/widgets/general/risk_card.dart';
 import 'package:mamacare/app/widgets/general/week_card.dart';
-import 'package:mamacare/logger_debug.dart';
 import '../controllers/bluetooth_connection.dart';
 import '../controllers/user_details_controller.dart';
 
@@ -19,7 +18,6 @@ class UserDetailsView extends GetView<UserDetailsController> {
     BuildContext context,
     BluetoothConnection controller,
   ) async {
-    logger.d("FAB pressed — scanning nearby Bluetooth devices...");
 
     await controller.scanDevices();
 

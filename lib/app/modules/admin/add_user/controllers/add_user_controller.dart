@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mamacare/logger_debug.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AddUserController extends GetxController {
@@ -28,7 +27,6 @@ class AddUserController extends GetxController {
 
     final XFile? image = await picker.pickImage(source: ImageSource.gallery);
 
-    logger.d("trace pick image after initialized");
     if (image != null) {
       pickedImage.value = File(image.path);
     }
@@ -67,11 +65,9 @@ class AddUserController extends GetxController {
         "createdAt": FieldValue.serverTimestamp(),
       });
 
-      logger.d("user saved: ${userDoc.id}");
       Get.snackbar("Success", "User info added successfully!");
       clearFields();
     } catch (e) {
-      logger.e("failed to save user: $e");
       Get.snackbar("Error", e.toString());
     }
   }

@@ -1,7 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:mamacare/app/data/services/bluetooth_services.dart';
-import 'package:mamacare/logger_debug.dart';
 
 class BluetoothConnection extends GetxController {
   // Reactive states
@@ -34,9 +33,7 @@ class BluetoothConnection extends GetxController {
           'address': device['address'],
         });
       }
-      logger.d("Scan success: ${availableDevices.length} devices found");
     } catch (e) {
-      logger.d("Scan error: $e");
       Get.snackbar("Error", "Gagal scan perangkat Bluetooth");
     }
   }
