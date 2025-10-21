@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 
 class BluetoothService {
 
-  static const platform = MethodChannel('com.example.mamacare/bluetooth');
+  static const platform = MethodChannel('channel/bluetooth');
 
   // Connect to a Bluetooth device
   static Future<String> connect(String address) async {
@@ -18,9 +18,9 @@ class BluetoothService {
   }
 
   // Send data to device
-  static Future<void> sendData(String message) async {
+  static Future<void> sendData(Map<String,dynamic> data) async {
     try {
-      await platform.invokeMethod('sendData', {'message': message});
+      await platform.invokeMethod('sendData', {'message': data});
     } on PlatformException catch (e) {
       Get.snackbar("Error", "$e");
     }

@@ -8,7 +8,7 @@ import 'package:mamacare/app/widgets/general/map_rot_chart.dart';
 import 'package:mamacare/app/widgets/general/pop_up_menu.dart';
 import 'package:mamacare/app/widgets/general/risk_card.dart';
 import 'package:mamacare/app/widgets/general/week_card.dart';
-import '../controllers/bluetooth_connection.dart';
+import '../controllers/bluetooth_conntroller.dart';
 import '../controllers/user_details_controller.dart';
 
 class UserDetailsView extends GetView<UserDetailsController> {
@@ -16,9 +16,8 @@ class UserDetailsView extends GetView<UserDetailsController> {
 
   void _onFabPressed(
     BuildContext context,
-    BluetoothConnection controller,
+    BluetoothConntroller controller,
   ) async {
-
     await controller.scanDevices();
 
     if (controller.availableDevices.isEmpty) {
@@ -37,11 +36,16 @@ class UserDetailsView extends GetView<UserDetailsController> {
           () => Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+
+              // text 
               Text(
                 "Select Bluetooth Device",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 12),
+
+
+              // to show all bluetooth that been paired
               for (var device in controller.availableDevices)
                 ListTile(
                   leading: Icon(Icons.bluetooth, color: Colors.blue),
@@ -49,7 +53,13 @@ class UserDetailsView extends GetView<UserDetailsController> {
                   subtitle: Text(device['address'] ?? ''),
                   onTap: () async {
                     Get.back();
+
+                    // connect to device
                     await controller.connectToDevice(device['address']!);
+
+
+                    // for sending data
+                    controller.sendData({"userId": "testUserID","adminId": "testAdminID","userImt": 23.2,"userAge": "20",});
                   },
                 ),
               if (controller.isConnecting.value)
@@ -62,12 +72,13 @@ class UserDetailsView extends GetView<UserDetailsController> {
         ),
       ),
     );
+
   }
 
   @override
   Widget build(BuildContext context) {
     // Inject
-    final bluetoothC = Get.put(BluetoothConnection());
+    final bluetoothC = Get.put(BluetoothConntroller());
     // get arguments
     final args = Get.arguments as Map<String, dynamic>;
     final user = args['user'];
@@ -205,7 +216,11 @@ class UserDetailsView extends GetView<UserDetailsController> {
           backgroundColor: Colors.white,
           onPressed: () {
             print("FAB CLICKED");
+
+            // open bottom sheet to there will be list blueotooth that already paired
+            // for connecting bluetooth
             _onFabPressed(context, bluetoothC);
+
           },
           child: Icon(
             bluetoothC.isConnecting.value

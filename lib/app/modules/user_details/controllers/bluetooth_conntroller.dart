@@ -2,13 +2,13 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:mamacare/app/data/services/bluetooth_services.dart';
 
-class BluetoothConnection extends GetxController {
+class BluetoothConntroller extends GetxController {
   // Reactive states
   final pairedDevices = <Map<String, dynamic>>[].obs;
   final availableDevices = <Map<String, String>>[].obs;
   final isConnecting = false.obs;
 
-  static const platform = MethodChannel('com.example.mamacare/bluetooth');
+  static const platform = MethodChannel('channel/bluetooth');
 
   //Get paired devices
   Future<void> getPairedDevices() async {
@@ -52,9 +52,9 @@ class BluetoothConnection extends GetxController {
   }
 
   //Send data
-  Future<void> sendData(String message) async {
+  Future<void> sendData(Map<String,dynamic> data) async {
     try {
-      await BluetoothService.sendData(message);
+      await BluetoothService.sendData(data);
       Get.snackbar("Bluetooth", "Data terkirim");
     } on PlatformException catch (e) {
       Get.snackbar("Error", "Gagal kirim data: ${e.message}");
