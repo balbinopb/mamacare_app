@@ -72,6 +72,21 @@ class UserDetailsController extends GetxController {
   }
 
 
+  // Future<Map<String,dynamic>> dataToSend(Map<String,dynamic> args) async {
+  //   final userId = args['userId'];
+  //   final adminId = args['userId'];
+  //   final userData= await FirebaseFirestore.instance.collection("sensorData").doc(adminId).collection("users").doc(userId).get();
+
+  //   // calculate imt/bmi for sending to esp
+  //   double imt= (userData['weight'] / (userData['height'] * userData['height']));
+
+  //   // create map
+  //   Map<String,dynamic> data= {"userId": userId,"adminId": adminId,"userImt": imt,"userAge": userData['age']};
+
+  //   return data;
+  // }
+
+
   // load userdata
   Future<void> loadUserData(String adminId, String userId) async {
     final data = await fetchUserData(adminId, userId);

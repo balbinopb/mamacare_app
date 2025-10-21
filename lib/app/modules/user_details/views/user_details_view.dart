@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mamacare/app/constants/app_colors.dart';
@@ -8,188 +7,314 @@ import 'package:mamacare/app/widgets/general/map_rot_chart.dart';
 import 'package:mamacare/app/widgets/general/pop_up_menu.dart';
 import 'package:mamacare/app/widgets/general/risk_card.dart';
 import 'package:mamacare/app/widgets/general/week_card.dart';
-import '../controllers/bluetooth_conntroller.dart';
+import '../controllers/bluetooth_controller.dart';
 import '../controllers/user_details_controller.dart';
 
 class UserDetailsView extends GetView<UserDetailsController> {
   const UserDetailsView({super.key});
 
-  void _onFabPressed(
+  // Better error handling and user feedback
+  Future<void> _onFabPressed(
     BuildContext context,
-    BluetoothConntroller controller,
+    BluetoothController bluetoothController,
+    Map<String, dynamic> args,
   ) async {
-    await controller.scanDevices();
+    try {
+      // Show loading indicator
+      Get.dialog(
+        const Center(child: CircularProgressIndicator()),
+        barrierDismissible: false,
+      );
 
-    if (controller.availableDevices.isEmpty) {
-      Get.snackbar("Bluetooth", "No nearby devices found");
-      return;
+      await bluetoothController.scanDevices();
+
+      // Close loading dialog
+      Get.back();
+
+      if (bluetoothController.availableDevices.isEmpty) {
+        Get.snackbar(
+          "Bluetooth",
+          "No nearby devices found",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.orange,
+          colorText: Colors.white,
+        );
+        return;
+      }
+
+      _showDeviceSelectionBottomSheet(bluetoothController, args);
+    } catch (e) {
+      Get.back(); // Close loading dialog if open
+      Get.snackbar(
+        "Error",
+        "Failed to scan devices: ${e.toString()}",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
     }
+  }
 
+  // Separated bottom sheet logic for better readability
+  void _showDeviceSelectionBottomSheet(
+    BluetoothController bluetoothController,
+    Map<String, dynamic> args,
+  ) {
     Get.bottomSheet(
       Container(
         padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
         ),
-        child: Obx(
-          () => Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-
-              // text 
-              Text(
-                "Select Bluetooth Device",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              "Select Bluetooth Device",
+              style: GoogleFonts.poppins(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
               ),
-              SizedBox(height: 12),
+            ),
+            const SizedBox(height: 12),
 
+            // Better list handling with max height
+            Flexible(
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: bluetoothController.availableDevices.length,
+                itemBuilder: (context, index) {
+                  final device = bluetoothController.availableDevices[index];
+                  return _buildDeviceListTile(
+                    device,
+                    bluetoothController,
+                    args,
+                  );
+                },
+              ),
+            ),
 
-              // to show all bluetooth that been paired
-              for (var device in controller.availableDevices)
-                ListTile(
-                  leading: Icon(Icons.bluetooth, color: Colors.blue),
-                  title: Text(device['name'] ?? 'Unknown'),
-                  subtitle: Text(device['address'] ?? ''),
-                  onTap: () async {
-                    Get.back();
+            // Connection status indicator
+            Obx(
+              () => bluetoothController.isConnecting.value
+                  ? const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: CircularProgressIndicator(),
+                    )
+                  : const SizedBox.shrink(),
+            ),
+          ],
+        ),
+      ),
+      isDismissible: true,
+      enableDrag: true,
+    );
+  }
 
-                    // connect to device
-                    await controller.connectToDevice(device['address']!);
+  // Extracted device tile for cleaner code
+  Widget _buildDeviceListTile(
+    Map<String, dynamic> device,
+    BluetoothController bluetoothController,
+    Map<String, dynamic> args,
+  ) {
+    return ListTile(
+      leading: const Icon(Icons.bluetooth, color: Colors.blue),
+      title: Text(device['name'] ?? 'Unknown Device'),
+      subtitle: Text(device['address'] ?? 'No address'),
+      onTap: () => _handleDeviceConnection(device, bluetoothController, args),
+    );
+  }
 
+  // Better error handling for device connection
+  Future<void> _handleDeviceConnection(
+    Map<String, dynamic> device,
+    BluetoothController bluetoothController,
+    Map<String, dynamic> args,
+  ) async {
+    Get.back(); // Close bottom sheet
 
-                    // for sending data
-                    controller.sendData({"userId": "testUserID","adminId": "testAdminID","userImt": 23.2,"userAge": "20",});
-                  },
+    try {
+      final deviceAddress = device['address'];
+      if (deviceAddress == null || deviceAddress.isEmpty) {
+        throw Exception('Invalid device address');
+      }
+
+      await bluetoothController.connectToDevice(deviceAddress);
+
+      // Null safety and validation
+      final user = args['user'];
+      if (user == null) {
+        throw Exception('User data not found');
+      }
+
+      final double weight = (user.weight as num?)?.toDouble() ?? 0.0;
+      final double height = (user.height as num?)?.toDouble() ?? 1.0;
+
+      if (height == 0) {
+        throw Exception('Invalid height value');
+      }
+
+      final double bmi = weight / (height * height);
+
+      final dataToSend = {
+        "userId": "${user.id}",
+        "adminId": args['adminId'] ?? '',
+        "userImt": bmi,
+        "userAge": user.age ?? 0,
+      };
+
+      await bluetoothController.sendData(dataToSend);
+
+      Get.snackbar(
+        "Success",
+        "Connected to ${device['name'] ?? 'device'}",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+      );
+    } catch (e) {
+      Get.snackbar(
+        "Connection Failed",
+        "Could not connect: ${e.toString()}",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        duration: const Duration(seconds: 4),
+      );
+    }
+  }
+
+  // Extracted header widget
+  Widget _buildHeader(dynamic user) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(12),
+          child: Image.asset(
+            "assets/user.png",
+            height: 54,
+            width: 54,
+            fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) {
+              return Container(
+                height: 54,
+                width: 54,
+                color: Colors.grey[300],
+                child: const Icon(Icons.person, color: Colors.grey),
+              );
+            },
+          ),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Hai, ${user?.name ?? 'User'}",
+                style: GoogleFonts.poppins(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w500,
                 ),
-              if (controller.isConnecting.value)
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: CircularProgressIndicator(),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
+              const SizedBox(height: 4),
+              Obx(
+                () => Text(
+                  controller.currentTime.value,
+                  style: GoogleFonts.poppins(
+                    fontSize: 14,
+                    color: Colors.grey[600],
+                  ),
                 ),
+              ),
             ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  // Extracted week cards section
+  Widget _buildWeekCards() {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: List.generate(
+          8, // weeks 9-16
+          (index) => Padding(
+            padding: const EdgeInsets.only(right: 12),
+            child: WeekCard(week: index + 9),
           ),
         ),
       ),
     );
+  }
 
+  // Extracted indicators section
+  Widget _buildIndicators() {
+    return const Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        IndicatorCard(
+          icon: Icons.bloodtype,
+          iconColor: Color(0xFFC73133),
+          label: "MAP",
+          value: "93",
+          unit: "mmHg",
+          status: "Hipertensi",
+          backgroundColor: Color(0xFFFAEBEB),
+        ),
+        IndicatorCard(
+          icon: Icons.rotate_right,
+          iconColor: AppColors.yellow1,
+          label: "ROT",
+          value: "25",
+          unit: "deg",
+          status: "High",
+          backgroundColor: Color(0xFFFFFAEA),
+        ),
+        IndicatorCard(
+          icon: Icons.accessibility_new,
+          iconColor: Color(0xFF539660),
+          label: "BMI",
+          value: "23,4",
+          unit: "kg",
+          status: "Normal",
+          backgroundColor: Color(0xFFEEF5F0),
+        ),
+      ],
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    // Inject
-    final bluetoothC = Get.put(BluetoothConntroller());
-    // get arguments
-    final args = Get.arguments as Map<String, dynamic>;
+    // Get controller once and reuse
+    final bluetoothC = Get.put(BluetoothController());
+
+    // Null safety for arguments
+    final args = Get.arguments as Map<String, dynamic>? ?? {};
     final user = args['user'];
 
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 18.0, vertical: 24),
+            padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 24),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Header
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: Image.asset(
-                        "assets/user.png",
-                        height: 54,
-                        width: 54,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Hai, ${user.name}",
-                            style: GoogleFonts.poppins(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                          ),
-                          SizedBox(height: 4),
-                          Obx(
-                            () => Text(
-                              controller.currentTime.value,
-                              style: GoogleFonts.poppins(
-                                fontSize: 14,
-                                color: Colors.grey[600],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-
-                SizedBox(height: 24),
-
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      for (int week = 9; week < 17; week++)
-                        Padding(
-                          padding: EdgeInsets.only(right: 12),
-                          child: WeekCard(week: week),
-                        ),
-                    ],
-                  ),
-                ),
-
-                SizedBox(height: 24),
-
+                _buildHeader(user),
+                const SizedBox(height: 24),
+                _buildWeekCards(),
+                const SizedBox(height: 24),
                 Obx(() => RiskCard(data: controller.risk.value)),
-
-                SizedBox(height: 24),
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IndicatorCard(
-                      icon: Icons.bloodtype,
-                      iconColor: Color(0xFFC73133),
-                      label: "MAP",
-                      value: "93",
-                      unit: "mmHg",
-                      status: "Hipertensi",
-                      backgroundColor: Color(0xFFFAEBEB),
-                    ),
-                    IndicatorCard(
-                      icon: Icons.rotate_right,
-                      iconColor: AppColors.yellow1,
-                      label: "ROT",
-                      value: "25",
-                      unit: "deg",
-                      status: "High",
-                      backgroundColor: Color(0xFFFFFAEA),
-                    ),
-                    IndicatorCard(
-                      icon: Icons.accessibility_new,
-                      iconColor: Color(0xFF539660),
-                      label: "BMI",
-                      value: "23,4",
-                      unit: "kg",
-                      status: "Normal",
-                      backgroundColor: Color(0xFFEEF5F0),
-                    ),
-                  ],
-                ),
-
-                SizedBox(height: 24),
-
+                const SizedBox(height: 24),
+                _buildIndicators(),
+                const SizedBox(height: 24),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -200,33 +325,28 @@ class UserDetailsView extends GetView<UserDetailsController> {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    PopUpMenu(),
+                    const PopUpMenu(),
                   ],
                 ),
-
                 Obx(() => MapRotChart(data: controller.chartData.value)),
               ],
             ),
           ),
         ),
       ),
-
       floatingActionButton: Obx(
         () => FloatingActionButton(
           backgroundColor: Colors.white,
-          onPressed: () {
-            print("FAB CLICKED");
-
-            // open bottom sheet to there will be list blueotooth that already paired
-            // for connecting bluetooth
-            _onFabPressed(context, bluetoothC);
-
-          },
+          onPressed: bluetoothC.isConnecting.value
+              ? null // Disable when connecting
+              : () => _onFabPressed(context, bluetoothC, args),
           child: Icon(
             bluetoothC.isConnecting.value
                 ? Icons.bluetooth_disabled
                 : Icons.bluetooth_searching,
-            color: Colors.blueAccent,
+            color: bluetoothC.isConnecting.value
+                ? Colors.grey
+                : Colors.blueAccent,
           ),
         ),
       ),

@@ -2,7 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:mamacare/app/data/services/bluetooth_services.dart';
 
-class BluetoothConntroller extends GetxController {
+class BluetoothController extends GetxController {
   // Reactive states
   final pairedDevices = <Map<String, dynamic>>[].obs;
   final availableDevices = <Map<String, String>>[].obs;
