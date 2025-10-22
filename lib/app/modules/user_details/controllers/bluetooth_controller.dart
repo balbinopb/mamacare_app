@@ -23,6 +23,7 @@ class BluetoothController extends GetxController {
   //Scan for nearby devices
   Future<void> scanDevices() async {
     try {
+      // print("===========================scan devices===================");
       availableDevices.clear();
       final result = await BluetoothService.platform.invokeMethod(
         'scanDevices',

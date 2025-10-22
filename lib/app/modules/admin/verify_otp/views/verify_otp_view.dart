@@ -15,121 +15,119 @@ class VerifyOtpView extends GetView<VerifyOtpController> {
 
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            LoginHeader(
-              first: "Verify OTP",
-              second: "Enter the code sent to your phone",
-            ),
-            SizedBox(height: 20),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 28),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                // spacing: Checkbox.width,
-                children: List.generate(6, (index) {
-                  return SizedBox(
-                    width: 45,
-                    child: TextField(
-                      controller: otpControllers[index],
-                      keyboardType: TextInputType.number,
-                      textAlign: TextAlign.center,
-                      maxLength: 1,
-                      style: TextStyle(fontSize: 20),
-                      decoration: InputDecoration(
-                        counterText: '',
-                        // errorText: widget.errorText,
-                        errorStyle: TextStyle(color: AppColors.yellow1),
-                        // hintText: widget.placeholder,
-                        contentPadding: EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 14,
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: Color(0xFFAAAAAD)),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(
-                            color: Color(0xFFFFB00B),
-                            width: 2,
-                          ),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: AppColors.yellow1),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: AppColors.yellow1,
-                            width: 2,
-                          ),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      // ),
-                      onChanged: (value) {
-                        if (value.isNotEmpty && index < 5) {
-                          FocusScope.of(context).nextFocus();// move to next field
-                        }
-                        if (value.isEmpty && index > 0) {
-                          FocusScope.of(context).previousFocus();// move back when deletingg
-                        }
-
-                        // update controller's otp value
-                        controller.otpController.text = otpControllers
-                            .map((c) => c.text)
-                            .join();
-                      },
-                    ),
-                  );
-                }),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              LoginHeader(
+                first: "Verify OTP",
+                second: "Enter the code sent to your phone",
               ),
-            ),
-            SizedBox(height: 30),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 28, vertical: 6),
-              child: SizedBox(
-                width: double.infinity,
-                child: Obx(() {
-                  return FilledButton(
-                    onPressed: controller.isLoading.value
-                        ? null
-                        : () async {
-                            await controller.verifyOtp(
-                              otp: controller.otpController.text.trim(),
-                            );
-                          },
-                    style: FilledButton.styleFrom(
-                      backgroundColor: AppColors.yellow1,
-                      padding: EdgeInsets.symmetric(vertical: 14),
-                      textStyle: GoogleFonts.poppins(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24),
-                      ),
-                    ),
-                    child: controller.isLoading.value
-                        ? SizedBox(
-                            height: 20,
-                            width: 20,
-                            child: CircularProgressIndicator(
-                              color: AppColors.black,
-                              strokeWidth: 2,
+              SizedBox(height: 20),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 28),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: List.generate(6, (index) {
+                    return SizedBox(
+                      width: 45,
+                      child: TextField(
+                        controller: otpControllers[index],
+                        keyboardType: TextInputType.number,
+                        textAlign: TextAlign.center,
+                        maxLength: 1,
+                        style: TextStyle(fontSize: 20),
+                        decoration: InputDecoration(
+                          counterText: '',
+                          errorStyle: TextStyle(color: AppColors.yellow1),
+                          contentPadding: EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 14,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide(color: Color(0xFFAAAAAD)),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide(
+                              color: Color(0xFFFFB00B),
+                              width: 2,
                             ),
-                          )
-                        : Text(
-                            "Verify OTP",
-                            style: GoogleFonts.poppins(color: AppColors.black),
                           ),
-                  );
-                }),
+                          errorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: AppColors.yellow1),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: AppColors.yellow1,
+                              width: 2,
+                            ),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        onChanged: (value) {
+                          if (value.isNotEmpty && index < 5) {
+                            FocusScope.of(context).nextFocus();
+                          }
+                          if (value.isEmpty && index > 0) {
+                            FocusScope.of(context).previousFocus();
+                          }
+
+                          // update controller's otp value
+                          controller.otpController.text = otpControllers
+                              .map((c) => c.text)
+                              .join();
+                        },
+                      ),
+                    );
+                  }),
+                ),
               ),
-            ),
-          ],
+              SizedBox(height: 30),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 28, vertical: 6),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: Obx(() {
+                    return FilledButton(
+                      onPressed: controller.isLoading.value
+                          ? null
+                          : () async {
+                              await controller.verifyOtp(
+                                otp: controller.otpController.text.trim(),
+                              );
+                            },
+                      style: FilledButton.styleFrom(
+                        backgroundColor: AppColors.yellow1,
+                        padding: EdgeInsets.symmetric(vertical: 14),
+                        textStyle: GoogleFonts.poppins(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                      ),
+                      child: controller.isLoading.value
+                          ? SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(
+                                color: AppColors.black,
+                                strokeWidth: 2,
+                              ),
+                            )
+                          : Text(
+                              "Verify OTP",
+                              style: GoogleFonts.poppins(color: AppColors.black),
+                            ),
+                    );
+                  }),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
