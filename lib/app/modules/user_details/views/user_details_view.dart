@@ -29,6 +29,8 @@ class UserDetailsView extends GetView<UserDetailsController> {
       throw Exception("User not found in arguments");
     }
 
+    controller.listenToSensorData(args['adminId'], user.id);
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
