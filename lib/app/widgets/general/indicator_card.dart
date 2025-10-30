@@ -21,6 +21,14 @@ class IndicatorCard extends StatelessWidget {
     required this.backgroundColor,
   });
 
+  double _calculateFontSize(BuildContext context, String text) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    if (text.length <= 3) return 32;
+    if (text.length <= 4) return 28;
+    if (text.length <= 5) return 26;
+    return screenWidth < 400 ? 20 : 22;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -48,7 +56,7 @@ class IndicatorCard extends StatelessWidget {
             text: TextSpan(
               text: value,
               style: GoogleFonts.poppins(
-                fontSize: 32,
+                fontSize: _calculateFontSize(context, value),
                 fontWeight: FontWeight.w600,
                 color: Colors.black,
               ),

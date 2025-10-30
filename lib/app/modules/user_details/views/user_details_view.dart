@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -39,7 +40,7 @@ class UserDetailsView extends GetView<UserDetailsController> {
               const SizedBox(height: 24),
               _buildWeekCards(),
               const SizedBox(height: 24),
-              Obx(() => RiskCard(data: controller.risk.value)),
+              Obx(() => RiskCard(data: controller.risk.value,args: args,)),
               const SizedBox(height: 24),
               _buildIndicators(),
               const SizedBox(height: 24),
@@ -187,6 +188,7 @@ class UserDetailsView extends GetView<UserDetailsController> {
 
       await bluetoothController.connectToDevice(deviceAddress);
 
+      // print("===========================${calculateIMT()}==============================");
       final dataToSend = {
         "userId": "${user.id}",
         "adminId": args['adminId'] ?? '',
@@ -195,6 +197,7 @@ class UserDetailsView extends GetView<UserDetailsController> {
       };
 
       await bluetoothController.sendData(dataToSend);
+
 
       Get.snackbar(
         "Success",
@@ -296,37 +299,92 @@ class UserDetailsView extends GetView<UserDetailsController> {
   }
 
   Widget _buildIndicators() {
-    return const Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        IndicatorCard(
-          icon: Icons.bloodtype,
-          iconColor: Color(0xFFC73133),
-          label: "MAP",
-          value: "93",
-          unit: "mmHg",
-          status: "Hipertensi",
-          backgroundColor: Color(0xFFFAEBEB),
-        ),
-        IndicatorCard(
-          icon: Icons.rotate_right,
-          iconColor: AppColors.yellow1,
-          label: "ROT",
-          value: "25",
-          unit: "deg",
-          status: "High",
-          backgroundColor: Color(0xFFFFFAEA),
-        ),
-        IndicatorCard(
-          icon: Icons.accessibility_new,
-          iconColor: Color(0xFF539660),
-          label: "BMI",
-          value: "23,4",
-          unit: "kg",
-          status: "Normal",
-          backgroundColor: Color(0xFFEEF5F0),
-        ),
-      ],
+    if (user == null) return const SizedBox();
+
+    final userDataRef = FirebaseFirestore.instance
+        .collection('sensorData')
+        .doc(args['adminId'])
+        .collection('users')
+        .doc(user.id)
+        .collection('readsensor');
+
+    return StreamBuilder<QuerySnapshot>(
+      stream: userDataRef
+          .orderBy('createAt', descending: true)
+          .limit(1)
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (snapshot.data!.docs.isEmpty) {
+          return const Center(child: Text('No sensor data yet'));
+        }
+
+        final latestDoc = snapshot.data!.docs.first;
+        final data = latestDoc.data() as Map<String, dynamic>;
+
+        // Weight & height
+        final double weight = (user.weight as num?)?.toDouble() ?? 0.0;
+        final double heightCm = (user.height as num?)?.toDouble() ?? 1.0;
+        final double heightM = heightCm / 100;
+
+        if (heightM == 0) return const Text('Invalid height data');
+
+        // BMI rounded to 1 decimal
+        final double bmi = ((weight / (heightM * heightM)) * 10).ceil() / 10;
+
+        // MAP & ROT
+        final map = (data['MAP_Supine'] as num?)?.toStringAsFixed(1) ?? '-';
+        final rot = (data['MAP_ROT'] as num?)?.toStringAsFixed(1) ?? '-';
+
+        // Status helpers
+        String getMapStatus(double value) {
+          if (value > 110) return "Hipertensi";
+          if (value < 70) return "Low";
+          return "Normal";
+        }
+
+        String getBmiStatus(double value) {
+          if (value < 18.5) return "Underweight";
+          if (value < 25) return "Normal";
+          if (value < 30) return "Overweight";
+          return "Obese";
+        }
+
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            IndicatorCard(
+              icon: Icons.bloodtype,
+              iconColor: const Color(0xFFC73133),
+              label: "MAP",
+              value: map,
+              unit: "mmHg",
+              status: getMapStatus(double.tryParse(map) ?? 0),
+              backgroundColor: const Color(0xFFFAEBEB),
+            ),
+            IndicatorCard(
+              icon: Icons.rotate_right,
+              iconColor: AppColors.yellow1,
+              label: "ROT",
+              value: rot,
+              unit: "deg",
+              status: "High",
+              backgroundColor: const Color(0xFFFFFAEA),
+            ),
+            IndicatorCard(
+              icon: Icons.accessibility_new,
+              iconColor: const Color(0xFF539660),
+              label: "BMI",
+              value: bmi.toStringAsFixed(1),
+              unit: "kg/m²",
+              status: getBmiStatus(bmi),
+              backgroundColor: const Color(0xFFEEF5F0),
+            ),
+          ],
+        );
+      },
     );
   }
 }
