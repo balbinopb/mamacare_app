@@ -11,24 +11,84 @@ import '../controllers/bluetooth_controller.dart';
 import '../controllers/user_details_controller.dart';
 
 class UserDetailsView extends GetView<UserDetailsController> {
-  const UserDetailsView({super.key});
+  UserDetailsView({super.key});
 
-  // Better error handling and user feedback
-  Future<void> _onFabPressed(
-    BuildContext context,
-    BluetoothController bluetoothController,
-    Map<String, dynamic> args,
-  ) async {
+  // Global class fields
+  late final Map<String, dynamic> args;
+  late final dynamic user;
+
+  @override
+  Widget build(BuildContext context) {
+    final bluetoothC = Get.put(BluetoothController());
+
+    // Initialize arguments
+    args = Get.arguments as Map<String, dynamic>? ?? {};
+    user = args['user'];
+    if (user == null) {
+      throw Exception("User not found in arguments");
+    }
+
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildHeader(),
+              const SizedBox(height: 24),
+              _buildWeekCards(),
+              const SizedBox(height: 24),
+              Obx(() => RiskCard(data: controller.risk.value)),
+              const SizedBox(height: 24),
+              _buildIndicators(),
+              const SizedBox(height: 24),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Latest Report",
+                    style: GoogleFonts.poppins(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  const PopUpMenu(),
+                ],
+              ),
+              Obx(() => MapRotChart(data: controller.chartData.value)),
+            ],
+          ),
+        ),
+      ),
+      floatingActionButton: Obx(
+        () => FloatingActionButton(
+          backgroundColor: Colors.white,
+          onPressed: bluetoothC.isConnecting.value
+              ? null
+              : () => _onFabPressed(bluetoothC),
+          child: Icon(
+            bluetoothC.isConnecting.value
+                ? Icons.bluetooth_disabled
+                : Icons.bluetooth_searching,
+            color: bluetoothC.isConnecting.value
+                ? Colors.grey
+                : Colors.blueAccent,
+          ),
+        ),
+      ),
+    );
+  }
+
+  // --- Bluetooth Logic ---
+  Future<void> _onFabPressed(BluetoothController bluetoothController) async {
     try {
-      // Show loading indicator
       Get.dialog(
         const Center(child: CircularProgressIndicator()),
         barrierDismissible: false,
       );
 
       await bluetoothController.scanDevices();
-
-      // Close loading dialog
       Get.back();
 
       if (bluetoothController.availableDevices.isEmpty) {
@@ -42,9 +102,9 @@ class UserDetailsView extends GetView<UserDetailsController> {
         return;
       }
 
-      _showDeviceSelectionBottomSheet(bluetoothController, args);
+      _showDeviceSelectionBottomSheet(bluetoothController);
     } catch (e) {
-      Get.back(); // Close loading dialog if open
+      Get.back();
       Get.snackbar(
         "Error",
         "Failed to scan devices: ${e.toString()}",
@@ -55,10 +115,8 @@ class UserDetailsView extends GetView<UserDetailsController> {
     }
   }
 
-  // Separated bottom sheet logic for better readability
   void _showDeviceSelectionBottomSheet(
     BluetoothController bluetoothController,
-    Map<String, dynamic> args,
   ) {
     Get.bottomSheet(
       Container(
@@ -78,24 +136,16 @@ class UserDetailsView extends GetView<UserDetailsController> {
               ),
             ),
             const SizedBox(height: 12),
-
-            // Better list handling with max height
             Flexible(
               child: ListView.builder(
                 shrinkWrap: true,
                 itemCount: bluetoothController.availableDevices.length,
                 itemBuilder: (context, index) {
                   final device = bluetoothController.availableDevices[index];
-                  return _buildDeviceListTile(
-                    device,
-                    bluetoothController,
-                    args,
-                  );
+                  return _buildDeviceListTile(device, bluetoothController);
                 },
               ),
             ),
-
-            // Connection status indicator
             Obx(
               () => bluetoothController.isConnecting.value
                   ? const Padding(
@@ -112,28 +162,23 @@ class UserDetailsView extends GetView<UserDetailsController> {
     );
   }
 
-  // Extracted device tile for cleaner code
   Widget _buildDeviceListTile(
     Map<String, dynamic> device,
     BluetoothController bluetoothController,
-    Map<String, dynamic> args,
   ) {
     return ListTile(
       leading: const Icon(Icons.bluetooth, color: Colors.blue),
       title: Text(device['name'] ?? 'Unknown Device'),
       subtitle: Text(device['address'] ?? 'No address'),
-      onTap: () => _handleDeviceConnection(device, bluetoothController, args),
+      onTap: () => _handleDeviceConnection(device, bluetoothController),
     );
   }
 
-  // Better error handling for device connection
   Future<void> _handleDeviceConnection(
     Map<String, dynamic> device,
     BluetoothController bluetoothController,
-    Map<String, dynamic> args,
   ) async {
     Get.back(); // Close bottom sheet
-
     try {
       final deviceAddress = device['address'];
       if (deviceAddress == null || deviceAddress.isEmpty) {
@@ -142,25 +187,10 @@ class UserDetailsView extends GetView<UserDetailsController> {
 
       await bluetoothController.connectToDevice(deviceAddress);
 
-      // Null safety and validation
-      final user = args['user'];
-      if (user == null) {
-        throw Exception('User data not found');
-      }
-
-      final double weight = (user.weight as num?)?.toDouble() ?? 0.0;
-      final double height = (user.height as num?)?.toDouble() ?? 1.0;
-
-      if (height == 0) {
-        throw Exception('Invalid height value');
-      }
-
-      final double bmi = weight / (height * height);
-
       final dataToSend = {
         "userId": "${user.id}",
         "adminId": args['adminId'] ?? '',
-        "userImt": bmi,
+        "userImt": calculateIMT(),
         "userAge": user.age ?? 0,
       };
 
@@ -185,8 +215,20 @@ class UserDetailsView extends GetView<UserDetailsController> {
     }
   }
 
-  // Extracted header widget
-  Widget _buildHeader(dynamic user) {
+  // --- calculate IMT ---
+  double calculateIMT() {
+    final double weight = (user.weight as num?)?.toDouble() ?? 0.0;
+    final double heightCm = (user.height as num?)?.toDouble() ?? 1.0;
+
+    if (heightCm == 0) throw Exception('Invalid height value');
+
+    final double heightM = heightCm / 100;
+    return ((weight / (heightM * heightM)) * 10).ceil() /
+        10; // 1 decimal, rounded up
+  }
+
+  // --- UI ---
+  Widget _buildHeader() {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -238,7 +280,6 @@ class UserDetailsView extends GetView<UserDetailsController> {
     );
   }
 
-  // Extracted week cards section
   Widget _buildWeekCards() {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
@@ -254,7 +295,6 @@ class UserDetailsView extends GetView<UserDetailsController> {
     );
   }
 
-  // Extracted indicators section
   Widget _buildIndicators() {
     return const Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -287,69 +327,6 @@ class UserDetailsView extends GetView<UserDetailsController> {
           backgroundColor: Color(0xFFEEF5F0),
         ),
       ],
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // Get controller once and reuse
-    final bluetoothC = Get.put(BluetoothController());
-
-    // Null safety for arguments
-    final args = Get.arguments as Map<String, dynamic>? ?? {};
-    final user = args['user'];
-
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 24),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildHeader(user),
-                const SizedBox(height: 24),
-                _buildWeekCards(),
-                const SizedBox(height: 24),
-                Obx(() => RiskCard(data: controller.risk.value)),
-                const SizedBox(height: 24),
-                _buildIndicators(),
-                const SizedBox(height: 24),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Latest Report",
-                      style: GoogleFonts.poppins(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    const PopUpMenu(),
-                  ],
-                ),
-                Obx(() => MapRotChart(data: controller.chartData.value)),
-              ],
-            ),
-          ),
-        ),
-      ),
-      floatingActionButton: Obx(
-        () => FloatingActionButton(
-          backgroundColor: Colors.white,
-          onPressed: bluetoothC.isConnecting.value
-              ? null // Disable when connecting
-              : () => _onFabPressed(context, bluetoothC, args),
-          child: Icon(
-            bluetoothC.isConnecting.value
-                ? Icons.bluetooth_disabled
-                : Icons.bluetooth_searching,
-            color: bluetoothC.isConnecting.value
-                ? Colors.grey
-                : Colors.blueAccent,
-          ),
-        ),
-      ),
     );
   }
 }

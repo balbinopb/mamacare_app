@@ -62,7 +62,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.USER_DETAILS,
-      page: () => const UserDetailsView(),
+      page: () => UserDetailsView(),
       binding: UserDetailsBinding(),
     ),
     GetPage(
