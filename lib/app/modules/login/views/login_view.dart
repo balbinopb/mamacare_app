@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mamacare/app/constants/app_colors.dart';
@@ -10,20 +9,34 @@ import '../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {
   const LoginView({super.key});
+
   @override
   Widget build(BuildContext context) {
+    // Cache text styles to avoid rebuilding GoogleFonts
+    final buttonTextStyle = GoogleFonts.poppins(
+      fontSize: 16,
+      fontWeight: FontWeight.bold,
+      color: Colors.black,
+    );
+    final bodyTextStyle = GoogleFonts.poppins(fontSize: 14);
+    final linkTextStyle = GoogleFonts.poppins(
+      color: AppColors.yellow1,
+      fontSize: 14,
+    );
+
     return Scaffold(
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: controller.onRefresh,
           color: AppColors.yellow1,
           child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
             padding: EdgeInsets.only(
               bottom: MediaQuery.of(context).viewInsets.bottom + 24,
             ),
             child: Column(
               children: [
-                LoginHeader(
+                const LoginHeader(
                   first: "Welcome to \nMamacare",
                   second: "Please login to continue",
                 ),
@@ -35,48 +48,35 @@ class LoginView extends GetView<LoginController> {
                     errorText: controller.phoneError.value,
                   ),
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 28, vertical: 6),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 28,
+                    vertical: 6,
+                  ),
                   child: SizedBox(
                     width: double.infinity,
                     child: FilledButton(
                       onPressed: controller.sendOtp,
                       style: FilledButton.styleFrom(
                         backgroundColor: AppColors.yellow1,
-                        padding: EdgeInsets.symmetric(vertical: 14),
-                        textStyle: GoogleFonts.poppins(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        textStyle: buttonTextStyle,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(24),
                         ),
                       ),
-                      child: Text(
-                        "Send OTP",
-                        style: GoogleFonts.poppins(color: Colors.black),
-                      ),
+                      child: Text("Send OTP", style: buttonTextStyle),
                     ),
                   ),
                 ),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      "Don't have an account?",
-                      style: GoogleFonts.poppins(fontSize: 14),
-                    ),
+                    Text("Don't have an account?", style: bodyTextStyle),
                     TextButton(
                       onPressed: () {},
-                      child: Text(
-                        ' Register',
-                        style: GoogleFonts.poppins(
-                          color: AppColors.yellow1,
-                          fontSize: 14,
-                        ),
-                      ),
+                      child: Text(' Register', style: linkTextStyle),
                     ),
                   ],
                 ),

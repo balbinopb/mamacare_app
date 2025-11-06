@@ -31,7 +31,6 @@ class UserDetailsController extends GetxController {
     fetchLatestSensorData(adminId, user.id);
   }
 
-
   // untuk ambil data dari sub-collection 'readSensor'
   Future<void> fetchLatestSensorData(String adminId, String userId) async {
     final snapshot = await FirebaseFirestore.instance
@@ -71,7 +70,6 @@ class UserDetailsController extends GetxController {
     }
   }
 
-
   // Future<Map<String,dynamic>> dataToSend(Map<String,dynamic> args) async {
   //   final userId = args['userId'];
   //   final adminId = args['userId'];
@@ -85,7 +83,6 @@ class UserDetailsController extends GetxController {
 
   //   return data;
   // }
-
 
   // load userdata
   Future<void> loadUserData(String adminId, String userId) async {
@@ -104,34 +101,133 @@ class UserDetailsController extends GetxController {
     heartbeatPattern: [2, 2, 3, 1, 4, 0, 2, 2],
   ).obs;
 
-  final chartData = LineChartModel(
-    title: 'MAP & ROT Graphic',
-    entries: [
-      LineChartEntry(
-        label: 'MAP',
-        color: AppColors.red,
-        spots: [
-          FlSpot(0, 15),
-          FlSpot(1, 25),
-          FlSpot(2, 35),
-          FlSpot(3, 65),
-          FlSpot(4, 85),
-          FlSpot(5, 100),
-        ],
-      ),
-      LineChartEntry(
-        label: 'ROT',
-        color: Colors.amber,
-        spots: [
-          FlSpot(0, 5),
-          FlSpot(1, 15),
-          FlSpot(2, 45),
-          FlSpot(3, 95),
-          FlSpot(4, 65),
-          FlSpot(5, 100),
-        ],
-      ),
-    ],
-  ).obs;
+  // final chartData = Rx<LineChartModel>(
+  //   LineChartModel(title: 'MAP & ROT Graphic', entries: []),
+  // );
 
+  // void listenToSensorData(String adminId, String userId) {
+  //   FirebaseFirestore.instance
+  //       .collection('sensorData')
+  //       .doc(adminId)
+  //       .collection('users')
+  //       .doc(userId)
+  //       .collection('readsensor')
+  //       .orderBy('createAt', descending: true)
+  //       .limit(5)
+  //       .snapshots()
+  //       .listen((snapshot) {
+  //     if (snapshot.docs.isEmpty) return;
+
+  //     final mapSpots = <FlSpot>[];
+  //     final rotSpots = <FlSpot>[];
+
+  //     // Reverse so chart shows oldest -> newest
+  //     final docs = snapshot.docs.reversed.toList();
+
+  //     for (int i = 0; i < docs.length; i++) {
+  //       final data = docs[i].data();
+  //       final mapVal = (data['MAP_Supine'] ?? 0).toDouble();
+  //       final rotVal = (data['MAP_ROT'] ?? 0).toDouble();
+
+  //       mapSpots.add(FlSpot(i.toDouble(), mapVal));
+  //       rotSpots.add(FlSpot(i.toDouble(), rotVal));
+  //     }
+
+  //     print('=======================Chart updated with ${docs.length} readings========================');
+  //     for (var element in mapSpots) {
+  //       print("=============$element========================");
+  //     }
+
+  //     chartData.value = LineChartModel(
+  //       title: 'MAP & ROT Graphic',
+  //       entries: [
+  //         LineChartEntry(label: 'MAP', color: AppColors.red, spots: mapSpots),
+  //         LineChartEntry(label: 'ROT', color: Colors.amber, spots: rotSpots),
+  //       ],
+  //     );
+  //   });
+  // }
+
+  // =======================[][][]==========================
+  final chartData = Rx<LineChartModel>(
+    LineChartModel(title: 'MAP & ROT Graphic', entries: []),
+  );
+
+  void listenToSensorData(String adminId, String userId) {
+    FirebaseFirestore.instance
+        .collection('sensorData')
+        .doc(adminId)
+        .collection('users')
+        .doc(userId)
+        .collection('readsensor')
+        .orderBy('createAt', descending: true)
+        .limit(10)
+        .snapshots()
+        .listen((snapshot) {
+          if (snapshot.docs.isEmpty) return;
+
+          final docs = snapshot.docs.reversed.toList();
+          final mapSpots = <FlSpot>[];
+          final rotSpots = <FlSpot>[];
+
+          for (int i = 0; i < docs.length; i++) {
+            final data = docs[i].data();
+            final mapVal = (data['MAP_Supine'] ?? 0).toDouble();
+            final rotVal = (data['MAP_ROT'] ?? 0).toDouble();
+            mapSpots.add(FlSpot(i.toDouble(), mapVal));
+            rotSpots.add(FlSpot(i.toDouble(), rotVal));
+          }
+
+        //  print('=======================Chart updated with ${docs.length} readings========================');
+        //  for (var element in mapSpots) {
+        //    print("=============$element========================");
+        //  }
+
+          chartData.value = LineChartModel(
+            title: 'MAP & ROT Graphic',
+            entries: [
+              LineChartEntry(
+                label: 'MAP',
+                color: AppColors.red,
+                spots: mapSpots,
+              ),
+              LineChartEntry(
+                label: 'ROT',
+                color: Colors.amber,
+                spots: rotSpots,
+              ),
+            ],
+          );
+        });
+  }
+
+  // final chartData = LineChartModel(
+  //   title: 'MAP & ROT Graphic',
+  //   entries: [
+  //     LineChartEntry(
+  //       label: 'MAP',
+  //       color: AppColors.red,
+  //       spots: [
+  //         FlSpot(0, 15),
+  //         FlSpot(1, 25),
+  //         FlSpot(2, 35),
+  //         FlSpot(3, 65),
+  //         FlSpot(4, 85),
+  //         FlSpot(5, 100),
+  //       ],
+  //     ),
+  //     LineChartEntry(
+  //       label: 'ROT',
+  //       color: Colors.amber,
+  //       spots: [
+  //         FlSpot(0, 5),
+  //         FlSpot(1, 15),
+  //         FlSpot(2, 45),
+  //         FlSpot(3, 95),
+  //         FlSpot(4, 65),
+  //         FlSpot(5, 100),
+  //       ],
+  //     ),
+  //   ],
+  // ).obs;
 }

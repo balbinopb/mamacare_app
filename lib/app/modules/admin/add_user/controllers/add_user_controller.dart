@@ -53,8 +53,7 @@ class AddUserController extends GetxController {
         "date_of_birth": dobController.text.trim(),
         "age": int.tryParse(ageController.text.trim()) ?? 0,
         "husbandName": husbandNameController.text.trim(),
-        "pregnancy_number":
-            int.tryParse(pregnancyNumberController.text.trim()) ?? 0,
+        "pregnancy_number":int.tryParse(pregnancyNumberController.text.trim()) ?? 0,
         "miscarriage": int.tryParse(miscarriageController.text.trim()) ?? 0,
         "childbirth": int.tryParse(childbirthController.text.trim()) ?? 0,
         "firstDayOfLastPeriod": firstDayOfLastPeriodController.text.trim(),
