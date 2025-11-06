@@ -178,10 +178,10 @@ class UserDetailsController extends GetxController {
             rotSpots.add(FlSpot(i.toDouble(), rotVal));
           }
 
-         print('=======================Chart updated with ${docs.length} readings========================');
-         for (var element in mapSpots) {
-           print("=============$element========================");
-         }
+        //  print('=======================Chart updated with ${docs.length} readings========================');
+        //  for (var element in mapSpots) {
+        //    print("=============$element========================");
+        //  }
 
           chartData.value = LineChartModel(
             title: 'MAP & ROT Graphic',
