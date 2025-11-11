@@ -12,6 +12,7 @@ import '../controllers/bluetooth_controller.dart';
 import '../controllers/user_details_controller.dart';
 
 class UserDetailsView extends GetView<UserDetailsController> {
+  // ignore: prefer_const_constructors_in_immutables
   UserDetailsView({super.key});
 
   // Global class fields

@@ -90,7 +90,6 @@ class LoginController extends GetxController {
     phoneError.value = null;
 
     final phone = phoneController.text.trim();
-
     // Validate phone number
     final validationError = _validatePhone(phone);
     if (validationError != null) {
