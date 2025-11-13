@@ -19,6 +19,8 @@ class UserDetailsController extends GetxController {
   var sensorData = Rxn<Map<String, dynamic>>();
   var userData = Rxn<Map<String, dynamic>>();
 
+  var selectedWeek = 9.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -90,6 +92,56 @@ class UserDetailsController extends GetxController {
   final chartData = Rx<LineChartModel>(
     LineChartModel(title: 'MAP & ROT Graphic', entries: []),
   );
+
+  void selectWeek(int weekNumber) {
+    selectedWeek.value = weekNumber;
+    fetchWeekSensorData(adminId, user.id, weekNumber);
+  }
+
+  Future<void> fetchWeekSensorData(
+    String adminId,
+    String userId,
+    int weekNumber,
+  ) async {
+    final now = DateTime.now();
+    final startOfWeek = now.subtract(
+      Duration(days: 7 * (DateTime.now().weekday - 1)),
+    );
+    final selectedStart = startOfWeek.subtract(
+      Duration(days: 7 * (9 - weekNumber)),
+    ); // =============assuming week 9 is current===================================
+    final selectedEnd = selectedStart.add(const Duration(days: 7));
+
+    final snapshot = await FirebaseFirestore.instance
+        .collection('sensorData')
+        .doc(adminId)
+        .collection('users')
+        .doc(userId)
+        .collection('readsensor')
+        .where('createAt', isGreaterThanOrEqualTo: selectedStart)
+        .where('createAt', isLessThanOrEqualTo: selectedEnd)
+        .orderBy('createAt')
+        .get();
+
+    final mapSpots = <FlSpot>[];
+    final rotSpots = <FlSpot>[];
+
+    for (int i = 0; i < snapshot.docs.length; i++) {
+      final data = snapshot.docs[i].data();
+      final mapVal = (data['MAP_Supine'] ?? 0).toDouble();
+      final rotVal = (data['MAP_ROT'] ?? 0).toDouble();
+      mapSpots.add(FlSpot(i.toDouble(), mapVal));
+      rotSpots.add(FlSpot(i.toDouble(), rotVal));
+    }
+
+    // chartData.value = LineChartModel(
+    //   title: 'MAP & ROT (Week $weekNumber)',
+    //   entries: [
+    //     LineChartEntry(label: 'MAP', color: AppColors.red, spots: mapSpots),
+    //     LineChartEntry(label: 'ROT', color: Colors.amber, spots: rotSpots),
+    //   ],
+    // );
+  }
 
   void listenToSensorData(String adminId, String userId) {
     FirebaseFirestore.instance
