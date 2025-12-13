@@ -32,7 +32,7 @@ class IndicatorCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // width: 111,
+      width: MediaQuery.of(context).size.width * 0.3,
       padding: EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: backgroundColor,
@@ -52,26 +52,31 @@ class IndicatorCard extends StatelessWidget {
             ],
           ),
           SizedBox(height: 4),
-          RichText(
-            text: TextSpan(
-              text: value,
-              style: GoogleFonts.poppins(
-                fontSize: _calculateFontSize(context, value),
-                fontWeight: FontWeight.w600,
-                color: Colors.black,
-              ),
-              children: [
-                TextSpan(
-                  text: " $unit",
-                  style: GoogleFonts.poppins(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black,
-                  ),
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: RichText(
+              text: TextSpan(
+                text: value,
+                style: GoogleFonts.poppins(
+                  fontSize: _calculateFontSize(context, value),
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black,
                 ),
-              ],
+                children: [
+                  TextSpan(
+                    text: " $unit",
+                    style: GoogleFonts.poppins(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
+
           SizedBox(height: 4),
           Text(
             status ?? '',
