@@ -7,7 +7,6 @@ import 'package:mamacare/app/widgets/general/indicator_card.dart';
 import 'package:mamacare/app/widgets/general/map_rot_chart.dart';
 import 'package:mamacare/app/widgets/general/pop_up_menu.dart';
 import 'package:mamacare/app/widgets/general/risk_card.dart';
-import 'package:mamacare/app/widgets/general/week_card.dart';
 import '../controllers/bluetooth_controller.dart';
 import '../controllers/user_details_controller.dart';
 
@@ -286,20 +285,68 @@ class UserDetailsView extends GetView<UserDetailsController> {
     );
   }
 
-  Widget _buildWeekCards() {
+Widget _buildWeekCards() {
+  return Obx(() {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
         children: List.generate(
-          8, // weeks 9-16
-          (index) => Padding(
-            padding: const EdgeInsets.only(right: 12),
-            child: WeekCard(week: index + 9),
-          ),
+          8, // Week 9 - 16
+          (index) {
+            final weekNum = index + 9;
+            final isSelected = controller.selectedWeek.value == weekNum;
+
+            return GestureDetector(
+              onTap: () => controller.selectWeek(weekNum),
+              child: Padding(
+                padding: const EdgeInsets.only(right: 12),
+                child: Container(
+                  height: 68,
+                  width: 51,
+                  decoration: BoxDecoration(
+                    color: isSelected ? AppColors.yellow1 : Colors.transparent,
+                    border: Border.all(color: AppColors.yellow1, width: 2),
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      if (isSelected)
+                        BoxShadow(
+                          color: AppColors.yellow1.withValues(alpha: 0.4),
+                          blurRadius: 6,
+                          offset: const Offset(0, 3),
+                        ),
+                    ],
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Week",
+                        style: GoogleFonts.poppins(
+                          color: isSelected ? AppColors.white : AppColors.black,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      Text(
+                        "$weekNum",
+                        style: GoogleFonts.poppins(
+                          color: isSelected ? AppColors.white : AppColors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
         ),
       ),
     );
-  }
+  });
+}
+
 
   Widget _buildIndicators() {
     if (user == null) return const SizedBox();
