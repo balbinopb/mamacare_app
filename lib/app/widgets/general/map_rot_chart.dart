@@ -38,50 +38,57 @@ class MapRotChart extends StatelessWidget {
             ],
           ),
           SizedBox(height: 16),
-          // Line Chart
+          // Line Chart or No Data Message
           SizedBox(
             height: 230,
-            child: LineChart(
-              LineChartData(
-                gridData: FlGridData(show: true),
-                titlesData: FlTitlesData(
-                  bottomTitles: AxisTitles(
-                    sideTitles: SideTitles(showTitles: false),
-                  ),
-                  leftTitles: AxisTitles(
-                    sideTitles: SideTitles(
-                      showTitles: true,
-                      reservedSize: 28,
-                      interval: 20,
-                      getTitlesWidget: (value, meta) {
-                        return Text(
-                          value.toInt().toString(),
-                          style: TextStyle(fontSize: 12),
-                          textAlign: TextAlign.right,
+            child: data.entries.isEmpty || data.entries.every((e) => e.spots.isEmpty)
+                ? Center(
+                    child: Text(
+                      'No data available for this week',
+                      style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                    ),
+                  )
+                : LineChart(
+                    LineChartData(
+                      gridData: FlGridData(show: true),
+                      titlesData: FlTitlesData(
+                        bottomTitles: AxisTitles(
+                          sideTitles: SideTitles(showTitles: false),
+                        ),
+                        leftTitles: AxisTitles(
+                          sideTitles: SideTitles(
+                            showTitles: true,
+                            reservedSize: 28,
+                            interval: 20,
+                            getTitlesWidget: (value, meta) {
+                              return Text(
+                                value.toInt().toString(),
+                                style: TextStyle(fontSize: 12),
+                                textAlign: TextAlign.right,
+                              );
+                            },
+                          ),
+                        ),
+                        topTitles: AxisTitles(
+                          sideTitles: SideTitles(showTitles: false),
+                        ),
+                        rightTitles: AxisTitles(
+                          sideTitles: SideTitles(showTitles: false),
+                        ),
+                      ),
+                      borderData: FlBorderData(show: false),
+                      lineBarsData: data.entries.map((entry) {
+                        return LineChartBarData(
+                          isCurved: true,
+                          color: entry.color,
+                          barWidth: 3,
+                          dotData: FlDotData(show: false),
+                          belowBarData: BarAreaData(show: false),
+                          spots: entry.spots,
                         );
-                      },
+                      }).toList(),
                     ),
                   ),
-                  topTitles: AxisTitles(
-                    sideTitles: SideTitles(showTitles: false),
-                  ),
-                  rightTitles: AxisTitles(
-                    sideTitles: SideTitles(showTitles: false),
-                  ),
-                ),
-                borderData: FlBorderData(show: false),
-                lineBarsData: data.entries.map((entry) {
-                  return LineChartBarData(
-                    isCurved: true,
-                    color: entry.color,
-                    barWidth: 3,
-                    dotData: FlDotData(show: false),
-                    belowBarData: BarAreaData(show: false),
-                    spots: entry.spots,
-                  );
-                }).toList(),
-              ),
-            ),
           ),
         ],
       ),

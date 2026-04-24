@@ -29,7 +29,7 @@ class UserDetailsView extends GetView<UserDetailsController> {
       throw Exception("User not found in arguments");
     }
 
-    controller.listenToSensorData(args['adminId'], user.id);
+    // Load chart data when week changes (handled via selectWeek in controller)
 
     return Scaffold(
       body: SafeArea(
@@ -287,13 +287,16 @@ class UserDetailsView extends GetView<UserDetailsController> {
 
 Widget _buildWeekCards() {
   return Obx(() {
+    controller.autoScrollWeekChipsToSelectedWeek();
+
     return SingleChildScrollView(
+      controller: controller.weekScrollController,
       scrollDirection: Axis.horizontal,
       child: Row(
         children: List.generate(
-          8, // Week 9 - 16
+          UserDetailsController.totalWeeks, // Week 1 - 40
           (index) {
-            final weekNum = index + 9;
+            final weekNum = index + 1;
             final isSelected = controller.selectedWeek.value == weekNum;
 
             return GestureDetector(

@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:mamacare/app/routes/app_pages.dart';
 
 class VerifyOtpController extends GetxController {
-  final otpController = TextEditingController();
+  final otpController = TextEditingController(text: '123456');
   final isLoading=false.obs;
 
   Future<void> verifyOtp({required String otp}) async {

@@ -6,7 +6,7 @@ import 'package:mamacare/app/routes/app_pages.dart';
 class LoginController extends GetxController {
   // final emailController = TextEditingController();
   // final passwordController = TextEditingController();
-  final phoneController = TextEditingController();
+  final phoneController = TextEditingController(text: '082116967456');
 
   // Error states
   final emailError = RxnString();
